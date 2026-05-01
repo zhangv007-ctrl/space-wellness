@@ -1,0 +1,213 @@
+{
+  "common": {
+    "appName": "Space 普拉提",
+    "loading": "加载中…",
+    "save": "保存",
+    "cancel": "取消",
+    "confirm": "确认",
+    "edit": "编辑",
+    "delete": "删除",
+    "view": "查看",
+    "search": "搜索",
+    "status": "状态",
+    "actions": "操作",
+    "close": "关闭",
+    "back": "返回",
+    "all": "全部",
+    "active": "有效",
+    "inactive": "停用",
+    "name": "姓名",
+    "email": "邮箱",
+    "phone": "电话",
+    "role": "角色",
+    "date": "日期",
+    "time": "时间",
+    "notes": "备注（可选）",
+    "language": "语言"
+  },
+  "nav": {
+    "overview": "概览",
+    "dashboard": "控制台",
+    "management": "管理",
+    "clients": "客户",
+    "classes": "课程",
+    "spaces": "场地",
+    "bookings": "预约",
+    "portal": "门户",
+    "bookClass": "预约课程",
+    "mySchedule": "我的课表",
+    "rentSpace": "租借场地"
+  },
+  "roles": {
+    "admin": "管理员",
+    "teacher": "教师",
+    "client": "客户",
+    "viewAs": "角色切换："
+  },
+  "dashboard": {
+    "greeting": "早上好",
+    "subtitle": "节课程安排在今天",
+    "newClass": "+ 新建课程",
+    "stats": {
+      "activeClients": "活跃客户",
+      "todaysClasses": "今日课程",
+      "spaceRentals": "场地租借",
+      "waitlisted": "候补人数",
+      "thisMonth": "本月新增",
+      "fullyBooked": "节已满",
+      "thisWeek": "本周",
+      "across4Classes": "分布于4节课"
+    },
+    "todaysSchedule": "今日课表",
+    "viewAll": "查看全部",
+    "recentActivity": "最近动态",
+    "spaceUtilisation": "今日场地使用率"
+  },
+  "clients": {
+    "title": "客户管理",
+    "subtitle": "位活跃会员",
+    "addClient": "+ 添加客户",
+    "searchPlaceholder": "搜索姓名或邮箱…",
+    "allStatuses": "全部状态",
+    "columns": {
+      "name": "姓名",
+      "email": "邮箱",
+      "phone": "电话",
+      "role": "角色",
+      "classes": "课程数",
+      "status": "状态"
+    },
+    "modal": {
+      "title": "新建客户档案",
+      "subtitle": "填写以下信息创建账户",
+      "firstName": "名字",
+      "lastName": "姓氏",
+      "notifPref": "通知偏好",
+      "notifEmail": "仅邮件",
+      "notifSms": "仅短信",
+      "notifBoth": "邮件 + 短信",
+      "createBtn": "创建档案"
+    }
+  },
+  "classes": {
+    "title": "课程管理",
+    "subtitle": "管理课表、名额与候补",
+    "createClass": "+ 创建课程",
+    "tabs": { "thisWeek": "本周", "upcoming": "即将开始", "past": "历史课程" },
+    "columns": {
+      "class": "课程",
+      "dateTime": "日期与时间",
+      "space": "场地",
+      "teacher": "教师",
+      "capacity": "名额",
+      "waitlist": "候补",
+      "status": "状态"
+    },
+    "levels": {
+      "beginner": "初级",
+      "intermediate": "中级",
+      "advanced": "高级",
+      "all": "全部程度"
+    },
+    "modal": {
+      "title": "创建课程",
+      "subtitle": "将新课程添加到课表",
+      "className": "课程名称",
+      "classNamePlaceholder": "如：晨间流动",
+      "startTime": "开始时间",
+      "maxCapacity": "最大名额",
+      "level": "程度",
+      "createBtn": "创建课程"
+    },
+    "waitlistModal": {
+      "title": "候补名单 —",
+      "subtitle": "人正在等待",
+      "confirmBtn": "确认入场"
+    }
+  },
+  "spaces": {
+    "title": "场地管理",
+    "subtitle": "个区域 · 管理容量与可用性",
+    "addSpace": "+ 添加场地",
+    "availableNow": "当前可用",
+    "inUse": "使用中",
+    "availableAllDay": "全天可用",
+    "noBookingsToday": "今日无预约",
+    "maxCapacity": "最大容纳：",
+    "people": "人",
+    "nextBooking": "下次预约：",
+    "endsAt": "结束"
+  },
+  "bookings": {
+    "title": "全部预约",
+    "subtitle": "预约历史与状态管理",
+    "searchClient": "搜索客户…",
+    "allClasses": "全部课程",
+    "columns": {
+      "client": "客户",
+      "class": "课程",
+      "date": "日期",
+      "status": "状态",
+      "notified": "通知"
+    },
+    "statuses": {
+      "confirmed": "已确认",
+      "waitlist": "候补中",
+      "cancelled": "已取消"
+    },
+    "cancelBtn": "取消",
+    "confirmBtn": "确认"
+  },
+  "bookClass": {
+    "title": "预约课程",
+    "subtitle": "选择课程并预留名额",
+    "allLevels": "全部程度",
+    "anyTeacher": "全部教师",
+    "spotsLeft": "个名额剩余",
+    "spotLeft": "个名额剩余",
+    "full": "已满 — 加入候补",
+    "modal": {
+      "title": "确认预约",
+      "subtitle": "确认前请核查以下信息",
+      "notifPref": "通知方式",
+      "notifEmail": "邮件确认",
+      "notifSms": "短信确认",
+      "notifBoth": "两者都要",
+      "confirmBtn": "确认预约"
+    }
+  },
+  "mySchedule": {
+    "title": "我的课表",
+    "subtitle": "即将到来与历史预约",
+    "tabs": { "upcoming": "即将到来", "past": "历史", "waitlist": "候补" },
+    "cancelBtn": "取消",
+    "leaveWaitlist": "退出候补",
+    "waitlistPos": "候补"
+  },
+  "rentSpace": {
+    "title": "租借场地",
+    "subtitle": "为您的私人课程选择区域与时段",
+    "selectDate": "日期",
+    "startTime": "开始时间",
+    "duration": "时长",
+    "durations": { "1h": "1 小时", "1h30": "1.5 小时", "2h": "2 小时" },
+    "checkAvailability": "查看可用性",
+    "availableSpaces": "该时段可用场地",
+    "unavailable": "不可用",
+    "reserveBtn": "预订",
+    "modal": {
+      "title": "确认场地预订",
+      "notesPlaceholder": "如：私人课 — 4位学员",
+      "confirmBtn": "确认预订"
+    }
+  },
+  "toast": {
+    "classCreated": "课程已创建并添加到课表。",
+    "clientCreated": "客户档案已创建，欢迎邮件已发送。",
+    "booked": "预约成功！确认邮件已发送。",
+    "cancelled": "预约已取消，确认邮件已发送。",
+    "spaceReserved": "场地已预订！确认通知已发送。",
+    "waitlistLeft": "已退出候补名单。",
+    "promoted": "已确认入场，通知已发送。"
+  }
+}

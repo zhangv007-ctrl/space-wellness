@@ -1,0 +1,213 @@
+{
+  "common": {
+    "appName": "Space Wellness",
+    "loading": "Loading…",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View",
+    "search": "Search",
+    "status": "Status",
+    "actions": "Actions",
+    "close": "Close",
+    "back": "Back",
+    "all": "All",
+    "active": "Active",
+    "inactive": "Inactive",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "role": "Role",
+    "date": "Date",
+    "time": "Time",
+    "notes": "Notes (optional)",
+    "language": "Language"
+  },
+  "nav": {
+    "overview": "Overview",
+    "dashboard": "Dashboard",
+    "management": "Management",
+    "clients": "Clients",
+    "classes": "Classes",
+    "spaces": "Spaces",
+    "bookings": "Bookings",
+    "portal": "Portal",
+    "bookClass": "Book a Class",
+    "mySchedule": "My Schedule",
+    "rentSpace": "Rent a Space"
+  },
+  "roles": {
+    "admin": "Admin",
+    "teacher": "Teacher",
+    "client": "Client",
+    "viewAs": "View as:"
+  },
+  "dashboard": {
+    "greeting": "Good morning",
+    "subtitle": "classes scheduled today",
+    "newClass": "+ New Class",
+    "stats": {
+      "activeClients": "Active Clients",
+      "todaysClasses": "Today's Classes",
+      "spaceRentals": "Space Rentals",
+      "waitlisted": "Waitlisted",
+      "thisMonth": "this month",
+      "fullyBooked": "fully booked",
+      "thisWeek": "This week",
+      "across4Classes": "Across 4 classes"
+    },
+    "todaysSchedule": "Today's Schedule",
+    "viewAll": "View all",
+    "recentActivity": "Recent Activity",
+    "spaceUtilisation": "Space Utilisation Today"
+  },
+  "clients": {
+    "title": "Clients",
+    "subtitle": "active members",
+    "addClient": "+ Add Client",
+    "searchPlaceholder": "Search by name or email…",
+    "allStatuses": "All statuses",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "role": "Role",
+      "classes": "Classes",
+      "status": "Status"
+    },
+    "modal": {
+      "title": "New Client Profile",
+      "subtitle": "Fill in the details to create a new account",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "notifPref": "Notification preference",
+      "notifEmail": "Email only",
+      "notifSms": "SMS only",
+      "notifBoth": "Email + SMS",
+      "createBtn": "Create Profile"
+    }
+  },
+  "classes": {
+    "title": "Classes",
+    "subtitle": "Manage schedule, capacity, and waitlists",
+    "createClass": "+ Create Class",
+    "tabs": { "thisWeek": "This Week", "upcoming": "Upcoming", "past": "Past" },
+    "columns": {
+      "class": "Class",
+      "dateTime": "Date & Time",
+      "space": "Space",
+      "teacher": "Teacher",
+      "capacity": "Capacity",
+      "waitlist": "Waitlist",
+      "status": "Status"
+    },
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "all": "All levels"
+    },
+    "modal": {
+      "title": "Create Class",
+      "subtitle": "Set up a new class on the schedule",
+      "className": "Class name",
+      "classNamePlaceholder": "e.g. Morning Flow",
+      "startTime": "Start time",
+      "maxCapacity": "Max capacity",
+      "level": "Level",
+      "createBtn": "Create Class"
+    },
+    "waitlistModal": {
+      "title": "Waitlist —",
+      "subtitle": "people currently on waitlist",
+      "confirmBtn": "Confirm"
+    }
+  },
+  "spaces": {
+    "title": "Spaces",
+    "subtitle": "zones · Manage capacity and availability",
+    "addSpace": "+ Add Space",
+    "availableNow": "Available now",
+    "inUse": "In use",
+    "availableAllDay": "Available all day",
+    "noBookingsToday": "No bookings today",
+    "maxCapacity": "Max capacity:",
+    "people": "people",
+    "nextBooking": "Next booking:",
+    "endsAt": "ends"
+  },
+  "bookings": {
+    "title": "All Bookings",
+    "subtitle": "Full booking history and status",
+    "searchClient": "Search client…",
+    "allClasses": "All classes",
+    "columns": {
+      "client": "Client",
+      "class": "Class",
+      "date": "Date",
+      "status": "Status",
+      "notified": "Notified"
+    },
+    "statuses": {
+      "confirmed": "Confirmed",
+      "waitlist": "Waitlist",
+      "cancelled": "Cancelled"
+    },
+    "cancelBtn": "Cancel",
+    "confirmBtn": "Confirm"
+  },
+  "bookClass": {
+    "title": "Book a Class",
+    "subtitle": "Select a class and reserve your spot",
+    "allLevels": "All levels",
+    "anyTeacher": "Any teacher",
+    "spotsLeft": "spots left",
+    "spotLeft": "spot left",
+    "full": "Full — join waitlist",
+    "modal": {
+      "title": "Confirm Booking",
+      "subtitle": "Review your selection before confirming",
+      "notifPref": "Notification preference",
+      "notifEmail": "Email confirmation",
+      "notifSms": "SMS confirmation",
+      "notifBoth": "Both",
+      "confirmBtn": "Confirm Booking"
+    }
+  },
+  "mySchedule": {
+    "title": "My Schedule",
+    "subtitle": "Your upcoming and past bookings",
+    "tabs": { "upcoming": "Upcoming", "past": "Past", "waitlist": "Waitlist" },
+    "cancelBtn": "Cancel",
+    "leaveWaitlist": "Leave",
+    "waitlistPos": "Waitlist"
+  },
+  "rentSpace": {
+    "title": "Rent a Space",
+    "subtitle": "Select a zone and time for your private session",
+    "selectDate": "Date",
+    "startTime": "Start time",
+    "duration": "Duration",
+    "durations": { "1h": "1 hour", "1h30": "1.5 hours", "2h": "2 hours" },
+    "checkAvailability": "Check availability",
+    "availableSpaces": "Available spaces for",
+    "unavailable": "Unavailable",
+    "reserveBtn": "Reserve",
+    "modal": {
+      "title": "Confirm Space Rental",
+      "notesPlaceholder": "e.g. Private session — 4 clients",
+      "confirmBtn": "Confirm Rental"
+    }
+  },
+  "toast": {
+    "classCreated": "Class created and added to schedule.",
+    "clientCreated": "Client profile created. Welcome email sent.",
+    "booked": "Booked! Confirmation email sent.",
+    "cancelled": "Booking cancelled. Confirmation email sent.",
+    "spaceReserved": "Space reserved! Confirmation sent.",
+    "waitlistLeft": "Removed from waitlist.",
+    "promoted": "Moved to confirmed. Notification sent."
+  }
+}
