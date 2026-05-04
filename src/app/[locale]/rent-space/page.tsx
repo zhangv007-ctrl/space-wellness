@@ -51,11 +51,28 @@ export default function RentSpacePage({ params }: { params: Promise<{ locale: st
       status: 'pending'
     })
     if (error) return showToast(zh ? '预约失败' : 'Booking failed')
+
+    // 发送确认邮件
+    const { data: { user } } = await supabase.auth.getUser()
+    const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', userId).single()
+    await fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'rental_confirmed',
+        to: user?.email,
+        name: profile?.full_name || user?.email,
+        className: '',
+        date: start.toLocaleDateString() + ' ' + start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        space: selected.name,
+      })
+    })
+
     const { data: rt } = await supabase.from('rentals').select('*, spaces(name)').eq('client_id', userId).order('created_at', { ascending: false })
     setRentals(rt || [])
     setSelected(null)
     setForm({ date: '', start_time: '', hours: 1 })
-    showToast(zh ? `已成功预约「${selected.name}」！` : `Successfully booked "${selected.name}"!`)
+    showToast(zh ? `已成功预约「${selected.name}」！确认邮件已发送。` : `Booked "${selected.name}"! Confirmation email sent.`)
   }
 
   const handleCancel = async (id: string) => {

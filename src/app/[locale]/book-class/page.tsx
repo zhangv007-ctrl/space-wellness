@@ -22,15 +22,36 @@ export default function BookClassPage({ params }: { params: Promise<{ locale: st
   }, [])
 
   const handleBook = async (cls: any) => {
+    if (!userId) return showToast(zh ? '请先登录' : 'Please sign in first')
+    if (booked.has(cls.id)) return showToast(zh ? '已预约此课程' : 'Already booked')
+
     const { error } = await supabase.from('bookings').insert({
+      client_id: userId,
       class_id: cls.id,
-      profile_id: '00000000-0000-0000-0000-000000000000', // replace with current user id
-      status: cls.available_spots > 0 ? 'confirmed' : 'waitlist',
-      created_at: new Date().toISOString(),
+      status: 'confirmed'
     })
-    if (error) return showToast(zh ? '预约失败' : 'Booking failed')
-    setSelected(null)
-    showToast(zh ? '预约成功！' : 'Booked successfully!')
+
+    if (error) return showToast(zh ? '预约失败，请重试' : 'Booking failed, please try again')
+    setBooked(prev => new Set([...prev, cls.id]))
+
+    // 发送确认邮件
+    const { data: { user } } = await supabase.auth.getUser()
+    const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', userId).single()
+    const start = new Date(cls.start_time)
+    await fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'booking_confirmed',
+        to: user?.email,
+        name: profile?.full_name || user?.email,
+        className: cls.title,
+        date: start.toLocaleDateString() + ' ' + start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        space: cls.spaces?.name || '',
+      })
+    })
+
+    showToast(zh ? `已成功预约「${cls.title}」！确认邮件已发送。` : `Booked "${cls.title}"! Confirmation email sent.`)
   }
 
   const filtered = classes.filter((cls) => {
