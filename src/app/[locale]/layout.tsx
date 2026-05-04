@@ -1,7 +1,8 @@
 import TopBar from '../../components/TopBar'
 
-export default function Layout({ children, params }: { children: React.ReactNode; params: { locale: string } }) {
-  const l = params.locale || 'en'
+export default async function Layout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const l = locale || 'en'
   const zh = l === 'zh'
   const nav = [
     { section: zh?'概览':'Overview', items: [{ label:zh?'控制台':'Dashboard', href:`/${l}/dashboard` }] },

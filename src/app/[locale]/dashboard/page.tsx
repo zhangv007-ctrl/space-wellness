@@ -1,5 +1,6 @@
-export default function DashboardPage({ params }: { params: { locale: string } }) {
-  const zh = params.locale === 'zh'
+export default async function DashboardPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const zh = locale === 'zh'
   return (
     <div style={{padding:8}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
@@ -16,7 +17,7 @@ export default function DashboardPage({ params }: { params: { locale: string } }
           [zh?'场地租借':'Space Rentals','12',zh?'本周':'This week','#C9B89E'],
           [zh?'候补人数':'Waitlisted','9',zh?'分布于4节课':'Across 4 classes','#C0544A'],
         ].map(([label,val,sub,color])=>(
-          <div key={label} style={{background:'#fff',border:'1px solid #E8DDD0',borderRadius:12,padding:'18px 20px',borderTop:`2px solid ${color}`}}>
+          <div key={String(label)} style={{background:'#fff',border:'1px solid #E8DDD0',borderRadius:12,padding:'18px 20px',borderTop:`2px solid ${color}`}}>
             <div style={{fontSize:11,textTransform:'uppercase',letterSpacing:'.08em',color:'#C9B89E',marginBottom:6}}>{label}</div>
             <div style={{fontFamily:'Georgia,serif',fontSize:32,color:'#3D2B1F',lineHeight:1}}>{val}</div>
             <div style={{fontSize:11,color:'#8B6F52',marginTop:4}}>{sub}</div>
@@ -33,10 +34,10 @@ export default function DashboardPage({ params }: { params: { locale: string } }
           ['5:30 pm','Evening Reset','傍晚放松','Studio A · Lisa M. · 10/10',false],
         ].map(([time,nameEn,nameZh,sub,rented],i)=>(
           <div key={i} style={{display:'flex',gap:16,padding:'10px 0',borderBottom:i<4?'1px solid #F2EDE4':'none'}}>
-            <div style={{width:60,fontSize:12,color:'#8B6F52',flexShrink:0}}>{time}</div>
+            <div style={{width:60,fontSize:12,color:'#8B6F52',flexShrink:0}}>{String(time)}</div>
             <div style={{flex:1,background:'#F2EDE4',borderRadius:8,padding:'8px 12px',borderLeft:`3px solid ${rented?'#B89A5A':'#7A9E87'}`}}>
-              <div style={{fontWeight:500,fontSize:13,color:'#3D2B1F'}}>{zh?nameZh:nameEn}</div>
-              <div style={{fontSize:12,color:'#8B6F52'}}>{sub}</div>
+              <div style={{fontWeight:500,fontSize:13,color:'#3D2B1F'}}>{zh?String(nameZh):String(nameEn)}</div>
+              <div style={{fontSize:12,color:'#8B6F52'}}>{String(sub)}</div>
             </div>
           </div>
         ))}
