@@ -1,49 +1,48 @@
 'use client'
 import { useState } from 'react'
 const SPACES = [
-  { name: 'Studio A',       cap: 10, status: 'available', detail: 'Next booking: 5:30 pm · Evening Reset',      desc: 'Full mirrors, barre rail, sprung hardwood floor' },
-  { name: 'Reformer Suite', cap: 6,  status: 'booked',    detail: 'Reformer Fundamentals · ends 11:00 am',      desc: '6 Pilates reformers, equipment storage' },
-  { name: 'Zone C',         cap: 4,  status: 'rented',    detail: 'Teacher: Mark Torres · Private 11am–1pm',    desc: 'Compact zone, ideal for small group sessions' },
-  { name: 'Open Floor',     cap: 12, status: 'available', detail: 'Next booking: 2:00 pm · Core & Balance',     desc: 'Large open mat space, suitable for all formats' },
-  { name: 'Therapy Room',   cap: 2,  status: 'available', detail: 'No bookings today',                          desc: 'Private, quiet room for one-on-one sessions' },
+  { nameEn:'Studio A',       namEzh:'Studio A',     cap:10, status:'available', detailEn:'Next: 5:30 pm · Evening Reset',       detailZh:'下次：5:30 pm · 傍晚放松',     descEn:'Full mirrors, barre rail, sprung floor', descZh:'全镜面，把杆，弹簧地板' },
+  { nameEn:'Reformer Suite', namEzh:'普拉提器械室', cap:6,  status:'booked',    detailEn:'Reformer Fundamentals · ends 11am',   detailZh:'普拉提基础 · 11点结束',         descEn:'6 Pilates reformers',                   descZh:'6台普拉提床' },
+  { nameEn:'Zone C',         namEzh:'C区',           cap:4,  status:'rented',    detailEn:'Teacher: Mark Torres · 11am–1pm',     detailZh:'教师：Mark Torres · 11am–1pm', descEn:'Compact zone, small group',             descZh:'小型区域，适合小班课' },
+  { nameEn:'Open Floor',     namEzh:'开放地板区',   cap:12, status:'available', detailEn:'Next: 2:00 pm · Core & Balance',      detailZh:'下次：2:00 pm · 核心平衡',     descEn:'Large open mat space',                  descZh:'大型开放垫子区' },
+  { nameEn:'Therapy Room',   namEzh:'理疗室',        cap:2,  status:'available', detailEn:'No bookings today',                   detailZh:'今日无预约',                   descEn:'Private, quiet, one-on-one',            descZh:'私密安静，适合一对一' },
 ]
-export default function SpacesPage() {
+export default function SpacesPage({ params }: { params: { locale: string } }) {
+  const zh = params.locale === 'zh'
   const [toast, setToast] = useState('')
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
   const statusColor = (s: string) => s==='available'?'#7A9E87':s==='booked'?'#C0544A':'#B89A5A'
-  const statusLabel = (s: string) => s==='available'?'Available now':s==='booked'?'In use':'Rented'
+  const statusLabel = (s: string) => s==='available'?(zh?'当前可用':'Available now'):s==='booked'?(zh?'使用中':'In use'):(zh?'已租借':'Rented')
   const statusBg = (s: string) => s==='available'?'#E8F2EA':s==='booked'?'#FAEBE9':'#FDF3E0'
   const statusText = (s: string) => s==='available'?'#3D7A4E':s==='booked'?'#C0544A':'#8A6020'
   return (
     <div style={{padding:8}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:22}}>
         <div>
-          <h1 style={{fontFamily:'Georgia,serif',fontSize:28,color:'#3D2B1F',margin:0}}>Spaces</h1>
-          <p style={{color:'#8B6F52',margin:'4px 0 0',fontSize:13}}>5 zones · Manage capacity and availability</p>
+          <h1 style={{fontFamily:'Georgia,serif',fontSize:28,color:'#3D2B1F',margin:0}}>{zh?'场地管理':'Spaces'}</h1>
+          <p style={{color:'#8B6F52',margin:'4px 0 0',fontSize:13}}>5 {zh?'个区域 · 管理容量与可用性':'zones · Manage capacity and availability'}</p>
         </div>
-        <button onClick={()=>showToast('Opening space editor…')} style={{background:'#3D2B1F',color:'#fff',border:'none',padding:'8px 16px',borderRadius:8,cursor:'pointer',fontSize:13}}>+ Add Space</button>
+        <button onClick={()=>showToast(zh?'正在打开场地编辑器…':'Opening space editor…')} style={{background:'#3D2B1F',color:'#fff',border:'none',padding:'8px 16px',borderRadius:8,cursor:'pointer',fontSize:13}}>{zh?'+ 添加场地':'+ Add Space'}</button>
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:16,marginBottom:24}}>
         {SPACES.map(s=>(
-          <div key={s.name} style={{background:'#fff',border:'1px solid #E8DDD0',borderRadius:12,padding:20,borderLeft:`3px solid ${statusColor(s.status)}`,cursor:'pointer',transition:'all .2s'}} onMouseOver={e=>{(e.currentTarget as HTMLElement).style.boxShadow='0 4px 20px rgba(61,43,31,.1)'}} onMouseOut={e=>{(e.currentTarget as HTMLElement).style.boxShadow='none'}}>
-            <div style={{fontFamily:'Georgia,serif',fontSize:18,color:'#3D2B1F',marginBottom:4}}>{s.name}</div>
-            <div style={{fontSize:12,color:'#8B6F52',marginBottom:12}}>Max capacity: {s.cap} people · {s.desc}</div>
+          <div key={s.nameEn} style={{background:'#fff',border:'1px solid #E8DDD0',borderRadius:12,padding:20,borderLeft:`3px solid ${statusColor(s.status)}`}}>
+            <div style={{fontFamily:'Georgia,serif',fontSize:18,color:'#3D2B1F',marginBottom:4}}>{zh?s.namEzh:s.nameEn}</div>
+            <div style={{fontSize:12,color:'#8B6F52',marginBottom:12}}>{zh?`最大容纳：${s.cap}人 · ${s.descZh}`:`Max ${s.cap} people · ${s.descEn}`}</div>
             <span style={{background:statusBg(s.status),color:statusText(s.status),padding:'2px 8px',borderRadius:20,fontSize:11,fontWeight:500}}>{statusLabel(s.status)}</span>
             <hr style={{border:'none',borderTop:'1px solid #F2EDE4',margin:'12px 0'}}/>
-            <div style={{fontSize:11,color:'#C9B89E'}}>{s.detail}</div>
+            <div style={{fontSize:11,color:'#C9B89E'}}>{zh?s.detailZh:s.detailEn}</div>
           </div>
         ))}
       </div>
       <div style={{background:'#fff',border:'1px solid #E8DDD0',borderRadius:12,padding:24}}>
-        <div style={{fontFamily:'Georgia,serif',fontSize:18,color:'#3D2B1F',marginBottom:16}}>Today's Utilisation</div>
+        <div style={{fontFamily:'Georgia,serif',fontSize:18,color:'#3D2B1F',marginBottom:16}}>{zh?'今日使用率':"Today's Utilisation"}</div>
         <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:16}}>
-          {[['Studio A',80,''],['Reformer Suite',100,'red'],['Zone C',60,'amber'],['Open Floor',33,''],['Therapy Room',0,'']].map(([name,pct,cls])=>(
-            <div key={name}>
+          {[[zh?'Studio A':'Studio A',80,''],['Reformer Suite',100,'red'],[zh?'C区':'Zone C',60,'amber'],[zh?'开放地板区':'Open Floor',33,''],[zh?'理疗室':'Therapy Room',0,'']].map(([name,pct,cls])=>(
+            <div key={String(name)}>
               <div style={{fontSize:12,fontWeight:500,color:'#3D2B1F',marginBottom:4}}>{name}</div>
-              <div style={{height:4,background:'#F2EDE4',borderRadius:2}}>
-                <div style={{height:'100%',borderRadius:2,width:`${pct}%`,background:cls==='red'?'#C0544A':cls==='amber'?'#B89A5A':'#7A9E87'}}/>
-              </div>
-              <div style={{fontSize:11,color:'#C9B89E',marginTop:4}}>{pct===0?'Open':pct===100?'Full':`${pct}%`}</div>
+              <div style={{height:4,background:'#F2EDE4',borderRadius:2}}><div style={{height:'100%',borderRadius:2,width:`${pct}%`,background:cls==='red'?'#C0544A':cls==='amber'?'#B89A5A':'#7A9E87'}}/></div>
+              <div style={{fontSize:11,color:'#C9B89E',marginTop:4}}>{pct===0?(zh?'空闲':'Open'):pct===100?(zh?'已满':'Full'):`${pct}%`}</div>
             </div>
           ))}
         </div>
