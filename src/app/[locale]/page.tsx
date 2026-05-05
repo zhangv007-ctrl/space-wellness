@@ -62,11 +62,19 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
         <div style={{ position: 'absolute', bottom: 32, left: '50%', transform: 'translateX(-50%)', color: 'rgba(255,255,255,0.4)', fontSize: 12, letterSpacing: '.1em' }}>↓ SCROLL</div>
       </section>
 
-      {/* About */}
+      {/* About 图片区域 */}
       <section id="about" style={{ padding: '120px 48px', maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
-        <div style={{ position: 'relative' }}>
-          <img src="/studio-3.jpg" alt="Studio" style={{ width: '100%', borderRadius: 16, objectFit: 'cover', height: 500, filter: 'brightness(0.9)' }} />
-          <img src="/studio-5.jpg" alt="Studio" style={{ position: 'absolute', bottom: -40, right: -40, width: '45%', borderRadius: 12, objectFit: 'cover', height: 200, border: '4px solid #0a0a0a', filter: 'brightness(0.85)' }} />
+        <div style={{ position: 'relative', paddingBottom: 60, paddingRight: 60 }}>
+          <img src="/studio-3.jpg" alt="Studio" style={{ 
+            width: '100%', borderRadius: 16, objectFit: 'cover', 
+            height: 500, filter: 'brightness(0.9)', display: 'block'
+          }} />
+          <img src="/studio-5.jpg" alt="Studio" style={{ 
+            position: 'absolute', bottom: -40, right: -40, 
+            width: '45%', borderRadius: 12, objectFit: 'cover', 
+            height: 200, border: '4px solid #0a0a0a', 
+            filter: 'brightness(0.85)'
+          }} />
         </div>
         <div style={{ paddingLeft: 20 }}>
           <div style={{ fontSize: 11, letterSpacing: '.15em', color: '#C9B89E', textTransform: 'uppercase', marginBottom: 16 }}>{zh ? '关于我们' : 'About Us'}</div>
@@ -93,7 +101,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {[
               {
-                img: '/studio-4.jpg',
+                img: '/studio-2.jpg',
                 icon: '🧘',
                 title: zh ? '普拉提' : 'Pilates',
                 desc: zh
@@ -101,7 +109,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
                   : 'Private and group Pilates sessions using Reformer, Cadillac, Wunda Chair and more — suitable for all levels from beginner to advanced.'
               },
               {
-                img: '/studio-2.jpg',
+                img: '/studio-8.jpg',
                 icon: '💪',
                 title: zh ? '力量体能训练' : 'Strength & Conditioning',
                 desc: zh
@@ -109,7 +117,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
                   : 'Coach-led functional training, strength work, and conditioning programs designed to build a stronger body and improve athletic performance.'
               },
               {
-                img: '/studio-9.jpg',
+                img: '/studio-3.jpg',
                 icon: '🩺',
                 title: zh ? '康复治疗' : 'Therapy',
                 desc: zh
