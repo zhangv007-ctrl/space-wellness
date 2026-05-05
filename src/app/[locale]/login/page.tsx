@@ -28,6 +28,17 @@ export default function LoginPage({ params }: { params: Promise<{ locale: string
     router.refresh()
   }
 
+  const handleForgotPassword = async () => {
+    if (!email) return showToast(zh ? '请先输入邮箱' : 'Please enter your email first')
+    setLoading(true)
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/${locale}/reset-password`,
+    })
+    setLoading(false)
+    if (error) return showToast(zh ? '发送失败' : 'Failed to send')
+    showToast(zh ? '重置邮件已发送，请查收！' : 'Reset email sent, please check your inbox!')
+  }
+
   const handleRegister = async () => {
     if (!email || !password) return showToast(zh ? '请填写邮箱和密码' : 'Please enter email and password')
     setLoading(true)
@@ -81,6 +92,14 @@ export default function LoginPage({ params }: { params: Promise<{ locale: string
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••" style={inp}
               onKeyDown={e => e.key === 'Enter' && (tab === 'login' ? handleLogin() : handleRegister())} />
           </div>
+
+          {tab === 'login' && (
+            <div style={{ textAlign: 'right', marginTop: -12, marginBottom: 20 }}>
+              <span onClick={handleForgotPassword} style={{ fontSize: 12, color: '#8B6F52', cursor: 'pointer', textDecoration: 'underline' }}>
+                {zh ? '忘记密码？' : 'Forgot password?'}
+              </span>
+            </div>
+          )}
 
           <button
             onClick={tab === 'login' ? handleLogin : handleRegister}
