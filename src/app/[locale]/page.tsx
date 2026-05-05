@@ -101,7 +101,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {[
               {
-                img: '/studio-2.jpg',
+                img: '/studio-5.jpg',
                 icon: '🧘',
                 title: zh ? '普拉提' : 'Pilates',
                 desc: zh
@@ -132,7 +132,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
                     onMouseLeave={e => (e.target as HTMLElement).style.transform = 'scale(1)'} />
                 </div>
                 <div style={{ padding: 28 }}>
-                  <div style={{ fontSize: 28, marginBottom: 12 }}>{s.icon}</div>
+                  
                   <h3 style={{ fontSize: 20, fontWeight: 400, margin: '0 0 12px', color: '#C9B89E' }}>{s.title}</h3>
                   <p style={{ color: '#888', lineHeight: 1.8, fontSize: 14, margin: 0 }}>{s.desc}</p>
                 </div>
@@ -178,8 +178,9 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 48, marginBottom: 60 }}>
             <div>
               <img src="/logo.jpg" alt="Space Wellness" style={{ height: 60, width: 60, objectFit: 'cover', borderRadius: '50%', marginBottom: 16, border: '2px solid rgba(201,184,158,0.3)' }} />
-              <p style={{ color: '#555', fontSize: 13, lineHeight: 1.7, maxWidth: 260 }}>
-                {zh ? 'YOUR SPACE & YOUR WELLNESS — 专注治疗性运动与身体恢复的精品工作室' : 'YOUR SPACE & YOUR WELLNESS — A boutique studio specializing in therapeutic movement and recovery.'}
+              <p style={{ color: '#C9B89E', fontSize: 11, letterSpacing: '.15em', marginBottom: 8, fontWeight: 600 }}>YOUR SPACE & YOUR WELLNESS</p>
+              <p style={{ color: '#555', fontSize: 13, lineHeight: 1.5, maxWidth: 260, margin: 0 }}>
+                {zh ? '专注治疗性运动与身体恢复的精品工作室' : 'A boutique studio specializing in therapeutic movement and recovery.'}
               </p>
             </div>
             {[
