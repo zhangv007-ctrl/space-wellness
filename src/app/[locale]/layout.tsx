@@ -34,7 +34,15 @@ export default function LocaleLayout({
   if (!showSidebar) {
     return (
       <html lang={locale}>
-        <body style={{ margin: 0, padding: 0 }}>
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+          <style>{`
+            *, *::before, *::after { box-sizing: border-box; }
+            html, body { margin: 0; padding: 0; overflow-x: hidden; max-width: 100%; }
+            img { max-width: 100%; }
+          `}</style>
+        </head>
+        <body style={{ margin: 0, padding: 0, overflowX: 'hidden' }}>
           {children}
         </body>
       </html>
