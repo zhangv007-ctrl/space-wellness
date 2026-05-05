@@ -65,7 +65,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
       {/* About 图片区域 */}
       <section id="about" style={{ padding: '120px 48px', maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
         <div style={{ position: 'relative', paddingBottom: 60, paddingRight: 60 }}>
-          <img src="/studio-3.jpg" alt="Studio" style={{ 
+          <img src="/studio-2.jpg" alt="Studio" style={{ 
             width: '100%', borderRadius: 16, objectFit: 'cover', 
             height: 500, filter: 'brightness(0.9)', display: 'block'
           }} />
