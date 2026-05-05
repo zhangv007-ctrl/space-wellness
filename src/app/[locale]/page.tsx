@@ -12,7 +12,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
 
       {/* 导航栏 */}
       <nav style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 48px', background: 'rgba(10,10,10,0.9)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-        <img src="/logo.jpg" alt="Space Wellness" style={{ height: 44, objectFit: 'contain' }} />
+        <img src="/logo.jpg" alt="Space Wellness" style={{ height: 44, width: 44, objectFit: 'cover', borderRadius: '50%', border: '2px solid rgba(201,184,158,0.4)' }} />
         <div style={{ display: 'flex', gap: 36, alignItems: 'center' }}>
           {[
             [zh ? '首页' : 'Home', '#hero'],
@@ -39,7 +39,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
       <section id="hero" style={{ position: 'relative', height: '100vh', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <img src="/studio-2.jpg" alt="Space Wellness Studio" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', filter: 'brightness(0.45)' }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', maxWidth: 800 }}>
-          <img src="/logo.jpg" alt="logo" style={{ width: 100, height: 100, objectFit: 'contain', marginBottom: 32, opacity: 0.9 }} />
+          <img src="/logo.jpg" alt="logo" style={{ width: 110, height: 110, objectFit: 'cover', borderRadius: '50%', marginBottom: 32, border: '3px solid rgba(201,184,158,0.5)', boxShadow: '0 0 40px rgba(201,184,158,0.15)' }} />
           <h1 style={{ fontSize: 'clamp(40px, 6vw, 76px)', fontWeight: 400, margin: '0 0 20px', lineHeight: 1.1, letterSpacing: '-.02em' }}>
             {zh ? '欢迎来到' : 'Welcome to'}<br />
             <em style={{ color: '#C9B89E', fontStyle: 'italic' }}>Space Wellness</em>
@@ -177,7 +177,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 48, marginBottom: 60 }}>
             <div>
-              <img src="/logo.jpg" alt="Space Wellness" style={{ height: 60, objectFit: 'contain', marginBottom: 16 }} />
+              <img src="/logo.jpg" alt="Space Wellness" style={{ height: 60, width: 60, objectFit: 'cover', borderRadius: '50%', marginBottom: 16, border: '2px solid rgba(201,184,158,0.3)' }} />
               <p style={{ color: '#555', fontSize: 13, lineHeight: 1.7, maxWidth: 260 }}>
                 {zh ? 'YOUR SPACE & YOUR WELLNESS — 专注治疗性运动与身体恢复的精品工作室' : 'YOUR SPACE & YOUR WELLNESS — A boutique studio specializing in therapeutic movement and recovery.'}
               </p>
