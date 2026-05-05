@@ -29,10 +29,28 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
     load()
   }, [])
 
-  const handleCancel = async (id: string) => {
+  const handleCancel = async (id: string, cls: any) => {
     await supabase.from('bookings').update({ status: 'cancelled' }).eq('id', id)
     setBookings(prev => prev.map(b => b.id === id ? { ...b, status: 'cancelled' } : b))
-    showToast(zh ? '预约已取消' : 'Booking cancelled')
+
+    // 发送取消邮件
+    const { data: { user } } = await supabase.auth.getUser()
+    const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', user?.id ?? '').single()
+    const start = cls?.start_time ? new Date(cls.start_time) : null
+    await fetch('/api/email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'booking_cancelled',
+        to: user?.email,
+        name: profile?.full_name || user?.email,
+        className: cls?.title || '',
+        date: start ? start.toLocaleDateString() + ' ' + start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
+        space: cls?.spaces?.name || '',
+      })
+    })
+
+    showToast(zh ? '预约已取消，通知邮件已发送' : 'Booking cancelled, notification email sent')
   }
 
   const now = new Date()
@@ -104,7 +122,7 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
                     {{ confirmed: zh ? '已确认' : 'Confirmed', cancelled: zh ? '已取消' : 'Cancelled', waitlist: zh ? '候补' : 'Waitlist' }[b.status] || b.status}
                   </span>
                   {b.status === 'confirmed' && !isPast && (
-                    <button onClick={() => handleCancel(b.id)}
+                    <button onClick={() => handleCancel(b.id, b.classes)}
                       style={{ background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '6px 14px', fontSize: 12, cursor: 'pointer', color: '#C0544A' }}>
                       {zh ? '取消预约' : 'Cancel'}
                     </button>
