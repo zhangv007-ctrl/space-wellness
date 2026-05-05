@@ -66,7 +66,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
       <section id="about" style={{ padding: '120px 48px', maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'center' }}>
         <div style={{ position: 'relative' }}>
           <img src="/studio-3.jpg" alt="Studio" style={{ width: '100%', borderRadius: 16, objectFit: 'cover', height: 500, filter: 'brightness(0.9)' }} />
-          <img src="/studio-9.jpg" alt="Studio" style={{ position: 'absolute', bottom: -40, right: -40, width: '45%', borderRadius: 12, objectFit: 'cover', height: 200, border: '4px solid #0a0a0a', filter: 'brightness(0.85)' }} />
+          <img src="/studio-5.jpg" alt="Studio" style={{ position: 'absolute', bottom: -40, right: -40, width: '45%', borderRadius: 12, objectFit: 'cover', height: 200, border: '4px solid #0a0a0a', filter: 'brightness(0.85)' }} />
         </div>
         <div style={{ paddingLeft: 20 }}>
           <div style={{ fontSize: 11, letterSpacing: '.15em', color: '#C9B89E', textTransform: 'uppercase', marginBottom: 16 }}>{zh ? '关于我们' : 'About Us'}</div>
@@ -109,7 +109,7 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
                   : 'Coach-led functional training, strength work, and conditioning programs designed to build a stronger body and improve athletic performance.'
               },
               {
-                img: '/studio-8.jpg',
+                img: '/studio-9.jpg',
                 icon: '🩺',
                 title: zh ? '康复治疗' : 'Therapy',
                 desc: zh
