@@ -1,39 +1,79 @@
-import TopBar from '../../components/TopBar'
+'use client'
+import { use } from 'react'
+import { usePathname } from 'next/navigation'
 
-export default async function Layout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
-  const { locale } = await params
-  const l = locale || 'en'
-  const zh = l === 'zh'
-  const nav = [
-    { section: zh?'概览':'Overview', items: [{ label:zh?'控制台':'Dashboard', href:`/${l}/dashboard` }] },
-    { section: zh?'管理':'Management', items: [
-      { label:zh?'客户':'Clients',  href:`/${l}/clients`  },
-      { label:zh?'课程':'Classes',  href:`/${l}/classes`  },
-      { label:zh?'场地':'Spaces',   href:`/${l}/spaces`   },
-      { label:zh?'预约':'Bookings', href:`/${l}/bookings` },
-    ]},
-    { section: zh?'门户':'Portal', items: [
-      { label:zh?'预约课程':'Book a Class',  href:`/${l}/book-class`  },
-      { label:zh?'我的课表':'My Schedule',   href:`/${l}/my-schedule` },
-      { label:zh?'租借场地':'Rent a Space',  href:`/${l}/rent-space`  },
-    ]},
-  ]
+const NAV = [
+  { group: 'OVERVIEW', items: [{ label: 'Dashboard', href: '/dashboard' }] },
+  { group: 'MANAGEMENT', items: [
+    { label: 'Clients', href: '/clients' },
+    { label: 'Classes', href: '/classes' },
+    { label: 'Spaces', href: '/spaces' },
+    { label: 'Bookings', href: '/bookings' },
+  ]},
+  { group: 'PORTAL', items: [
+    { label: 'Book a Class', href: '/book-class' },
+    { label: 'My Schedule', href: '/my-schedule' },
+    { label: 'Rent a Space', href: '/rent-space' },
+  ]},
+]
+
+const NO_SIDEBAR = ['', '/', '/login', '/reset-password']
+
+export default function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = use(params)
+  const pathname = usePathname()
+  const localePath = pathname.replace(`/${locale}`, '') || '/'
+  const showSidebar = !NO_SIDEBAR.includes(localePath)
+
+  if (!showSidebar) {
+    return (
+      <html lang={locale}>
+        <body style={{ margin: 0, padding: 0 }}>
+          {children}
+        </body>
+      </html>
+    )
+  }
+
   return (
-    <html lang={l}>
-      <body style={{margin:0,fontFamily:'sans-serif',background:'#FAF7F2',display:'flex',flexDirection:'column',minHeight:'100vh'}}>
-        <TopBar locale={l} />
-        <div style={{display:'flex',flex:1}}>
-          <nav style={{width:210,background:'#fff',borderRight:'1px solid #E8DDD0',padding:'16px 0',flexShrink:0}}>
-            {nav.map(group=>(
-              <div key={group.section}>
-                <div style={{fontSize:10,letterSpacing:'.1em',textTransform:'uppercase',color:'#C9B89E',padding:'14px 20px 6px',fontWeight:500}}>{group.section}</div>
-                {group.items.map(item=>(
-                  <a key={item.href} href={item.href} style={{display:'block',padding:'10px 20px',fontSize:13,color:'#8B6F52',textDecoration:'none'}}>{item.label}</a>
-                ))}
+    <html lang={locale}>
+      <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif', background: '#FAF7F2' }}>
+        <div style={{ display: 'flex', height: '100vh' }}>
+          <nav style={{ width: 200, background: '#fff', borderRight: '1px solid #E8DDD0', padding: '24px 0', flexShrink: 0, overflowY: 'auto' }}>
+            <div style={{ padding: '0 20px 24px', borderBottom: '1px solid #E8DDD0', marginBottom: 8 }}>
+              <a href={`/${locale}`} style={{ textDecoration: 'none' }}>
+                <span style={{ fontFamily: 'Georgia,serif', fontSize: 16, color: '#3D2B1F' }}>Space </span>
+                <em style={{ fontFamily: 'Georgia,serif', fontSize: 16, color: '#8B6F52' }}>Wellness</em>
+              </a>
+            </div>
+            {NAV.map(group => (
+              <div key={group.group} style={{ marginBottom: 8 }}>
+                <div style={{ padding: '8px 20px 4px', fontSize: 10, letterSpacing: '.1em', color: '#C9B89E', textTransform: 'uppercase' as const }}>{group.group}</div>
+                {group.items.map(item => {
+                  const active = pathname.includes(item.href)
+                  return (
+                    <a key={item.href} href={`/${locale}${item.href}`}
+                      style={{ display: 'block', padding: '9px 20px', fontSize: 13, color: active ? '#3D2B1F' : '#8B6F52', textDecoration: 'none', background: active ? '#F2EDE4' : 'transparent', borderRight: active ? '2px solid #3D2B1F' : 'none', fontWeight: active ? 500 : 400 }}>
+                      {item.label}
+                    </a>
+                  )
+                })}
               </div>
             ))}
+            <div style={{ padding: '16px 20px', borderTop: '1px solid #E8DDD0', marginTop: 8 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <a href={`/${locale === 'zh' ? 'en' : 'zh'}${localePath}`} style={{ fontSize: 12, color: '#8B6F52', textDecoration: 'none' }}>{locale === 'zh' ? 'EN' : '中文'}</a>
+                <a href={`/${locale}/login`} style={{ fontSize: 12, color: '#C0544A', textDecoration: 'none' }}>Sign Out</a>
+              </div>
+            </div>
           </nav>
-          <main style={{flex:1,padding:28,overflowY:'auto'}}>{children}</main>
+          <main style={{ flex: 1, padding: 28, overflowY: 'auto' }}>{children}</main>
         </div>
       </body>
     </html>
