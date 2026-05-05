@@ -92,9 +92,30 @@ export default function HomePage({ params }: { params: Promise<{ locale: string 
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
             {[
-              { img: '/studio-3.jpg', icon: '🧘', title: zh ? '工作室服务' : 'Studio Services', desc: zh ? '普拉提、力量训练、物理治疗、注册按摩治疗（RMT）及整骨疗法等定制服务。' : 'Tailored services in Pilates, Strength & Conditioning, Physiotherapy, RMT, and Osteopathy.' },
-              { img: '/studio-1.jpg', icon: '✨', title: zh ? '品牌产品' : 'Signature Products', desc: zh ? '提供实用产品，支持日常运动与恢复——从舒缓乳霜到训练必备品。' : 'Practical products to support daily movement and recovery—from soothing creams to training essentials.' },
-              { img: '/studio-5.jpg', icon: '🎓', title: zh ? '专业教育' : 'Professional Education', desc: zh ? 'canfitpro ProTrainer 团队为健身、普拉提及康复专业人士提供认证课程和工作坊。' : 'Our canfitpro ProTrainer team offers certifications and workshops for fitness, Pilates, and rehab professionals.' },
+              {
+                img: '/studio-4.jpg',
+                icon: '🧘',
+                title: zh ? '普拉提' : 'Pilates',
+                desc: zh
+                  ? '提供个人及团体普拉提课程，涵盖 Reformer、Cadillac、Wunda Chair 等专业器械训练，适合各种程度学员。'
+                  : 'Private and group Pilates sessions using Reformer, Cadillac, Wunda Chair and more — suitable for all levels from beginner to advanced.'
+              },
+              {
+                img: '/studio-2.jpg',
+                icon: '💪',
+                title: zh ? '力量体能训练' : 'Strength & Conditioning',
+                desc: zh
+                  ? '由专业教练带领，结合功能性训练、力量训练与体能提升，帮助您建立强健体魄，提升运动表现。'
+                  : 'Coach-led functional training, strength work, and conditioning programs designed to build a stronger body and improve athletic performance.'
+              },
+              {
+                img: '/studio-5.jpg',
+                icon: '🩺',
+                title: zh ? '康复治疗' : 'Therapy',
+                desc: zh
+                  ? '提供物理治疗、注册按摩治疗（RMT）及整骨疗法，专注于疼痛管理、身体康复与长期健康维护。'
+                  : 'Physiotherapy, Registered Massage Therapy (RMT), and Osteopathy focused on pain management, rehabilitation, and long-term health maintenance.'
+              },
             ].map(s => (
               <div key={s.title} style={{ borderRadius: 16, overflow: 'hidden', background: '#1a1a1a', border: '1px solid rgba(255,255,255,0.06)' }}>
                 <div style={{ height: 220, overflow: 'hidden' }}>
