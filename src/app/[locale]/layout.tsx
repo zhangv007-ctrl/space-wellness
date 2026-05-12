@@ -60,7 +60,7 @@ export default function LocaleLayout({
       <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif', background: '#FAF7F2' }}>
 
         {/* Mobile Header - hidden on md+ */}
-        <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-stone-200 flex items-center justify-between px-4 h-14">
+        <header className="mobile-header" style={{ position:"fixed", top:0, left:0, right:0, zIndex:100, background:"#fff", borderBottom:"1px solid #E8DDD0", padding:"12px 16px", alignItems:"center", justifyContent:"space-between", height:56 }}>
           <a href={`/${locale}`} style={{ textDecoration: 'none' }}>
             <span style={{ fontFamily: 'Georgia,serif', fontSize: 17, color: '#3D2B1F' }}>Space </span>
             <em style={{ fontFamily: 'Georgia,serif', fontSize: 17, color: '#8B6F52' }}>Wellness</em>
@@ -71,9 +71,9 @@ export default function LocaleLayout({
           </div>
         </header>
 
-        <div className="md:flex md:h-screen">
+        <div className="desktop-layout" style={{ display:"flex", height:"100vh" }}>
           {/* Sidebar - hidden on mobile */}
-          <nav className="hidden md:flex md:flex-col" style={{ width: 200, background: '#fff', borderRight: '1px solid #E8DDD0', padding: '24px 0', flexShrink: 0, overflowY: 'auto' }}>
+          <nav className="sidebar-nav" style={{ width:200, background:"#fff", borderRight:"1px solid #E8DDD0", padding:"24px 0", flexShrink:0, overflowY:"auto" as const, display:"flex", flexDirection:"column" as const }} style={{ width: 200, background: '#fff', borderRight: '1px solid #E8DDD0', padding: '24px 0', flexShrink: 0, overflowY: 'auto' }}>
             <div style={{ padding: '0 20px 24px', borderBottom: '1px solid #E8DDD0', marginBottom: 8 }}>
               <a href={`/${locale}`} style={{ textDecoration: 'none' }}>
                 <span style={{ fontFamily: 'Georgia,serif', fontSize: 16, color: '#3D2B1F' }}>Space </span>
@@ -103,13 +103,13 @@ export default function LocaleLayout({
           </nav>
 
           {/* Main content */}
-          <main className="flex-1 overflow-y-auto pt-14 pb-16 px-4 md:pt-7 md:pb-7 md:px-7">
+          <main className="main-area" style={{ flex:1, overflowY:"auto" as const }}>
             {children}
           </main>
         </div>
 
         {/* Mobile Tab Bar - hidden on md+ */}
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-stone-200 flex h-16">
+        <nav className="mobile-tabbar" style={{ position:"fixed", bottom:0, left:0, right:0, zIndex:100, background:"#fff", borderTop:"1px solid #E8DDD0", height:64 }}>
           {TAB_ITEMS.map(item => {
             const active = pathname.includes(item.href)
             return (
