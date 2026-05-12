@@ -1,4 +1,3 @@
-import '../../globals.css'
 'use client'
 import { use, useState } from 'react'
 import { usePathname } from 'next/navigation'
@@ -44,7 +43,7 @@ export default function LocaleLayout({
     return (
       <html lang={locale}>
         <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="stylesheet" href="/mobile.css" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </head>
         <body style={{ margin: 0, padding: 0 }}>
           {children}
@@ -53,48 +52,28 @@ export default function LocaleLayout({
     )
   }
 
-  const css = `
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; overflow-x: hidden; }
-    .layout-wrap { display: flex; height: 100vh; }
-    .sidebar { width: 200px; background: #fff; border-right: 1px solid #E8DDD0; padding: 24px 0; flex-shrink: 0; overflow-y: auto; display: flex; flex-direction: column; }
-    .main-content { flex: 1; padding: 28px; overflow-y: auto; }
-    .mobile-header { display: none; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #fff; border-bottom: 1px solid #E8DDD0; padding: 12px 16px; justify-content: space-between; align-items: center; height: 56px; }
-    .mobile-tabbar { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 100; background: #fff; border-top: 1px solid #E8DDD0; height: 64px; }
-    .mobile-drawer-overlay { display: none; }
-    .mobile-drawer { display: none; }
-    @media (max-width: 767px) {
-      .sidebar { display: none !important; }
-      .main-content { padding: 16px; padding-top: 72px; padding-bottom: 80px; }
-      .layout-wrap { display: block; }
-      .mobile-header { display: flex; }
-      .mobile-tabbar { display: flex; }
-      .mobile-drawer-overlay { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; }
-      .mobile-drawer { display: block; position: fixed; bottom: 0; left: 0; right: 0; z-index: 201; background: #fff; border-radius: 16px 16px 0 0; padding: 20px 16px 80px; max-height: 80vh; overflow-y: auto; }
-    }
-  `
-
   return (
     <html lang={locale}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="stylesheet" href="/mobile.css" />
-        <style dangerouslySetInnerHTML={{ __html: css }} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
       <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif', background: '#FAF7F2' }}>
 
-        <header className="mobile-header">
+        {/* Mobile Header - hidden on md+ */}
+        <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-stone-200 flex items-center justify-between px-4 h-14">
           <a href={`/${locale}`} style={{ textDecoration: 'none' }}>
             <span style={{ fontFamily: 'Georgia,serif', fontSize: 17, color: '#3D2B1F' }}>Space </span>
             <em style={{ fontFamily: 'Georgia,serif', fontSize: 17, color: '#8B6F52' }}>Wellness</em>
           </a>
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <a href={`/${locale === 'zh' ? 'en' : 'zh'}${localePath}`} style={{ fontSize: 12, color: '#8B6F52', textDecoration: 'none', padding: '4px 8px', border: '1px solid #E8DDD0', borderRadius: 4 }}>{locale === 'zh' ? 'EN' : '中文'}</a>
-            <a href={`/${locale}/login`} style={{ fontSize: 12, color: '#C0544A', textDecoration: 'none' }}>登出</a>
+          <div className="flex gap-3 items-center">
+            <a href={`/${locale === 'zh' ? 'en' : 'zh'}${localePath}`} className="text-xs text-stone-500 border border-stone-200 rounded px-2 py-1" style={{ textDecoration: 'none' }}>{locale === 'zh' ? 'EN' : '中文'}</a>
+            <a href={`/${locale}/login`} className="text-xs text-red-500" style={{ textDecoration: 'none' }}>登出</a>
           </div>
         </header>
 
-        <div className="layout-wrap">
-          <nav className="sidebar">
+        <div className="md:flex md:h-screen">
+          {/* Sidebar - hidden on mobile */}
+          <nav className="hidden md:flex md:flex-col" style={{ width: 200, background: '#fff', borderRight: '1px solid #E8DDD0', padding: '24px 0', flexShrink: 0, overflowY: 'auto' }}>
             <div style={{ padding: '0 20px 24px', borderBottom: '1px solid #E8DDD0', marginBottom: 8 }}>
               <a href={`/${locale}`} style={{ textDecoration: 'none' }}>
                 <span style={{ fontFamily: 'Georgia,serif', fontSize: 16, color: '#3D2B1F' }}>Space </span>
@@ -122,32 +101,40 @@ export default function LocaleLayout({
               </div>
             </div>
           </nav>
-          <main className="main-content">{children}</main>
+
+          {/* Main content */}
+          <main className="flex-1 overflow-y-auto pt-14 pb-16 px-4 md:pt-7 md:pb-7 md:px-7">
+            {children}
+          </main>
         </div>
 
-        <nav className="mobile-tabbar">
+        {/* Mobile Tab Bar - hidden on md+ */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-stone-200 flex h-16">
           {TAB_ITEMS.map(item => {
             const active = pathname.includes(item.href)
             return (
               <a key={item.href} href={`/${locale}${item.href}`}
-                style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', gap: 2, background: active ? '#FAF7F2' : 'transparent', borderTop: active ? '2px solid #8B6F52' : '2px solid transparent' }}>
+                className="flex-1 flex flex-col items-center justify-center gap-0.5"
+                style={{ textDecoration: 'none', background: active ? '#FAF7F2' : 'transparent', borderTop: active ? '2px solid #8B6F52' : '2px solid transparent' }}>
                 <span style={{ fontSize: 20 }}>{item.icon}</span>
                 <span style={{ fontSize: 10, color: active ? '#3D2B1F' : '#8B6F52', fontWeight: active ? 600 : 400 }}>{item.label}</span>
               </a>
             )
           })}
           <button onClick={() => setDrawerOpen(true)}
-            style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: 'transparent', border: 'none', cursor: 'pointer', gap: 2, borderTop: '2px solid transparent' }}>
+            className="flex-1 flex flex-col items-center justify-center gap-0.5"
+            style={{ background: 'transparent', border: 'none', borderTop: '2px solid transparent', cursor: 'pointer' }}>
             <span style={{ fontSize: 20 }}>☰</span>
             <span style={{ fontSize: 10, color: '#8B6F52' }}>More</span>
           </button>
         </nav>
 
+        {/* Drawer */}
         {drawerOpen && (
           <>
-            <div className="mobile-drawer-overlay" onClick={() => setDrawerOpen(false)} />
-            <div className="mobile-drawer">
-              <div style={{ width: 40, height: 4, background: '#E8DDD0', borderRadius: 2, margin: '0 auto 20px' }} />
+            <div className="fixed inset-0 z-50 bg-black/40 md:hidden" onClick={() => setDrawerOpen(false)} />
+            <div className="fixed bottom-0 left-0 right-0 z-50 bg-white rounded-t-2xl p-5 pb-20 max-h-[80vh] overflow-y-auto md:hidden">
+              <div className="w-10 h-1 bg-stone-200 rounded mx-auto mb-5" />
               {NAV.map(group => (
                 <div key={group.group} style={{ marginBottom: 16 }}>
                   <div style={{ fontSize: 10, letterSpacing: '.1em', color: '#C9B89E', textTransform: 'uppercase', marginBottom: 8, paddingLeft: 4 }}>{group.group}</div>
@@ -156,7 +143,8 @@ export default function LocaleLayout({
                     return (
                       <a key={item.href} href={`/${locale}${item.href}`}
                         onClick={() => setDrawerOpen(false)}
-                        style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderRadius: 10, textDecoration: 'none', background: active ? '#F2EDE4' : 'transparent', marginBottom: 4 }}>
+                        className="flex items-center gap-3 rounded-xl mb-1"
+                        style={{ padding: '12px 16px', textDecoration: 'none', background: active ? '#F2EDE4' : 'transparent' }}>
                         <span style={{ fontSize: 20 }}>{item.icon}</span>
                         <span style={{ fontSize: 15, color: active ? '#3D2B1F' : '#8B6F52', fontWeight: active ? 600 : 400 }}>{item.label}</span>
                       </a>
@@ -164,7 +152,7 @@ export default function LocaleLayout({
                   })}
                 </div>
               ))}
-              <div style={{ display: 'flex', gap: 12, paddingTop: 8, borderTop: '1px solid #E8DDD0' }}>
+              <div className="flex gap-3 pt-2 border-t border-stone-100">
                 <a href={`/${locale === 'zh' ? 'en' : 'zh'}${localePath}`} style={{ fontSize: 13, color: '#8B6F52', textDecoration: 'none' }}>{locale === 'zh' ? 'EN' : '中文'}</a>
                 <a href={`/${locale}/login`} style={{ fontSize: 13, color: '#C0544A', textDecoration: 'none' }}>Sign Out</a>
               </div>
