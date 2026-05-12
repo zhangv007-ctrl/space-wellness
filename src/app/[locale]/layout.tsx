@@ -1,3 +1,4 @@
+import '../../globals.css'
 'use client'
 import { use, useState } from 'react'
 import { usePathname } from 'next/navigation'
