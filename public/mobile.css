@@ -1,0 +1,7 @@
+@media (max-width: 767px) {
+  .sidebar { display: none !important; }
+  .layout-wrap { display: block !important; height: auto !important; }
+  .main-content { padding: 16px !important; padding-top: 72px !important; padding-bottom: 80px !important; }
+  .mobile-header { display: flex !important; }
+  .mobile-tabbar { display: flex !important; }
+}

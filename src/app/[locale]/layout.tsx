@@ -44,7 +44,7 @@ export default function LocaleLayout({
     return (
       <html lang={locale}>
         <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="stylesheet" href="/mobile.css" />
         </head>
         <body style={{ margin: 0, padding: 0 }}>
           {children}
@@ -77,7 +77,7 @@ export default function LocaleLayout({
   return (
     <html lang={locale}>
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="stylesheet" href="/mobile.css" />
         <style dangerouslySetInnerHTML={{ __html: css }} />
       </head>
       <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif', background: '#FAF7F2' }}>
