@@ -1,5 +1,4 @@
 import { headers } from 'next/headers'
-import { usePathname } from 'next/navigation'
 import MobileNav from '../../components/MobileNav'
 
 const NAV = [
