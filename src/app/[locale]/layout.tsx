@@ -32,7 +32,7 @@ export default async function LocaleLayout({
   const localePath = pathname.replace(`/${locale}`, '') || '/'
   const showSidebar = !NO_SIDEBAR.includes(localePath)
   
-  const ua = headersList.get('user-agent') || ''
+  const ua = headersList.get('x-ua') || headersList.get('user-agent') || ''
   const isMobile = /iPhone|iPad|Android|Mobile/i.test(ua)
 
   if (!showSidebar) {
