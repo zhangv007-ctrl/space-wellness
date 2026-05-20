@@ -81,7 +81,7 @@ export default function BookingsPage({ params }: { params: Promise<{ locale: str
   const tabs = [['all', zh ? '全部' : 'All'], ['confirmed', zh ? '已确认' : 'Confirmed'], ['waitlist', zh ? '候补' : 'Waitlist'], ['cancelled', zh ? '已取消' : 'Cancelled']]
 
   return (
-    <div style={{ padding: 8 }}>
+    <div style={{ padding: 16 }}>
       <div style={{ marginBottom: 22 }}>
         <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 28, color: '#3D2B1F', margin: 0 }}>{zh ? '预约管理' : 'Bookings'}</h1>
       </div>
@@ -110,94 +110,91 @@ export default function BookingsPage({ params }: { params: Promise<{ locale: str
               </div>
             ))}
           </div>
-          <div style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, overflow: 'hidden' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-              <thead><tr style={{ borderBottom: '1px solid #E8DDD0' }}>
-                {[zh ? '客户' : 'Client', zh ? '课程' : 'Class', zh ? '时间' : 'Time', zh ? '状态' : 'Status', zh ? '操作' : 'Actions'].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: '10px 16px', fontSize: 11, letterSpacing: '.07em', textTransform: 'uppercase', color: '#C9B89E', fontWeight: 500 }}>{h}</th>
-                ))}
-              </tr></thead>
-              <tbody>
-                {loading ? (
-                  <tr><td colSpan={5} style={{ padding: 32, textAlign: 'center', color: '#8B6F52' }}>{zh ? '加载中…' : 'Loading…'}</td></tr>
-                ) : filtered.length === 0 ? (
-                  <tr><td colSpan={5} style={{ padding: 32, textAlign: 'center', color: '#8B6F52' }}>{zh ? '暂无记录' : 'No bookings found'}</td></tr>
-                ) : filtered.map(b => {
-                  const sc = statusColor[b.status] || { bg: '#F2EDE4', text: '#8B6F52' }
-                  const classTime = b.classes?.start_time ? new Date(b.classes.start_time) : null
-                  return (
-                    <tr key={b.id} style={{ borderBottom: '1px solid #F2EDE4' }}>
-                      <td style={{ padding: '12px 16px' }}>
-                        <div style={{ fontWeight: 500, color: '#3D2B1F' }}>{b.profiles?.full_name || '—'}</div>
-                        <div style={{ fontSize: 11, color: '#C9B89E' }}>{b.profiles?.phone || '—'}</div>
-                      </td>
-                      <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>{b.classes?.title || '—'}</td>
-                      <td style={{ padding: '12px 16px', color: '#8B6F52' }}>
-                        {classTime ? `${classTime.toLocaleDateString()} ${classTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : '—'}
-                      </td>
-                      <td style={{ padding: '12px 16px' }}>
-                        <span style={{ background: sc.bg, color: sc.text, padding: '2px 10px', borderRadius: 20, fontSize: 11, fontWeight: 500 }}>{statusLabel(b.status)}</span>
-                      </td>
-                      <td style={{ padding: '12px 16px' }}>
-                        <div style={{ display: 'flex', gap: 6 }}>
-                          {b.status !== 'confirmed' && <button onClick={() => handleBookingStatus(b.id, 'confirmed', b)} style={{ background: '#E8F2EA', color: '#3D7A4E', border: 'none', borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer' }}>{zh ? '确认' : 'Confirm'}</button>}
-                          {b.status !== 'cancelled' && <button onClick={() => handleBookingStatus(b.id, 'cancelled', b)} style={{ background: '#FAEBE9', color: '#C0544A', border: 'none', borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer' }}>{zh ? '取消' : 'Cancel'}</button>}
-                          <button onClick={() => handleDeleteBooking(b.id)} style={{ background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer', color: '#8B6F52' }}>{zh ? '删除' : 'Delete'}</button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        </>
-      ) : (
-        <div style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-            <thead><tr style={{ borderBottom: '1px solid #E8DDD0' }}>
-              {[zh ? '客户' : 'Client', zh ? '场地' : 'Space', zh ? '时间' : 'Time', zh ? '时长' : 'Duration', zh ? '总价' : 'Total', zh ? '状态' : 'Status', zh ? '操作' : 'Actions'].map(h => (
-                <th key={h} style={{ textAlign: 'left', padding: '10px 16px', fontSize: 11, letterSpacing: '.07em', textTransform: 'uppercase', color: '#C9B89E', fontWeight: 500 }}>{h}</th>
-              ))}
-            </tr></thead>
-            <tbody>
-              {rentals.length === 0 ? (
-                <tr><td colSpan={7} style={{ padding: 32, textAlign: 'center', color: '#8B6F52' }}>{zh ? '暂无场地租用申请' : 'No space rentals'}</td></tr>
-              ) : rentals.map(r => {
-                const start = new Date(r.start_time)
-                const end = new Date(r.end_time)
-                const hours = Math.round((end.getTime() - start.getTime()) / 3600000)
-                const sc = statusColor[r.status] || { bg: '#F2EDE4', text: '#8B6F52' }
+          {loading ? (
+            <div style={{ textAlign: 'center', padding: 32, color: '#8B6F52' }}>{zh ? '加载中…' : 'Loading…'}</div>
+          ) : filtered.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: 32, color: '#8B6F52' }}>{zh ? '暂无记录' : 'No bookings found'}</div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {filtered.map(b => {
+                const sc = statusColor[b.status] || { bg: '#F2EDE4', text: '#8B6F52' }
+                const classTime = b.classes?.start_time ? new Date(b.classes.start_time) : null
                 return (
-                  <tr key={r.id} style={{ borderBottom: '1px solid #F2EDE4' }}>
-                    <td style={{ padding: '12px 16px' }}>
-                      <div style={{ fontWeight: 500, color: '#3D2B1F' }}>{r.profiles?.full_name || '—'}</div>
-                      <div style={{ fontSize: 11, color: '#C9B89E' }}>{r.profiles?.phone || '—'}</div>
-                    </td>
-                    <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>{r.spaces?.name || '—'}</td>
-                    <td style={{ padding: '12px 16px', color: '#8B6F52' }}>{start.toLocaleDateString()} {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                    <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>{hours} {zh ? '小时' : 'hr'}</td>
-                    <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>${r.total_price}</td>
-                    <td style={{ padding: '12px 16px' }}>
-                      <span style={{ background: sc.bg, color: sc.text, padding: '2px 10px', borderRadius: 20, fontSize: 11, fontWeight: 500 }}>{statusLabel(r.status)}</span>
-                    </td>
-                    <td style={{ padding: '12px 16px' }}>
-                      <div style={{ display: 'flex', gap: 6 }}>
-                        {r.status === 'pending' && <>
-                          <button onClick={() => handleRentalStatus(r.id, 'confirmed', r)} style={{ background: '#E8F2EA', color: '#3D7A4E', border: 'none', borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer' }}>{zh ? '批准' : 'Approve'}</button>
-                          <button onClick={() => handleRentalStatus(r.id, 'cancelled', r)} style={{ background: '#FAEBE9', color: '#C0544A', border: 'none', borderRadius: 8, padding: '5px 10px', fontSize: 11, cursor: 'pointer' }}>{zh ? '拒绝' : 'Reject'}</button>
-                        </>}
+                  <div key={b.id} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 16 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                      <div>
+                        <div style={{ fontWeight: 500, color: '#3D2B1F', fontSize: 15 }}>{b.profiles?.full_name || '—'}</div>
+                        <div style={{ fontSize: 12, color: '#C9B89E', marginTop: 2 }}>{b.profiles?.phone || '—'}</div>
                       </div>
-                    </td>
-                  </tr>
+                      <span style={{ background: sc.bg, color: sc.text, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 500, flexShrink: 0 }}>{statusLabel(b.status)}</span>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
+                      <div>
+                        <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '课程' : 'Class'}</div>
+                        <div style={{ fontSize: 13, color: '#3D2B1F' }}>{b.classes?.title || '—'}</div>
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '时间' : 'Time'}</div>
+                        <div style={{ fontSize: 13, color: '#8B6F52' }}>{classTime ? classTime.toLocaleDateString() : '—'}</div>
+                        <div style={{ fontSize: 12, color: '#8B6F52' }}>{classTime ? classTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</div>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      {b.status !== 'confirmed' && <button onClick={() => handleBookingStatus(b.id, 'confirmed', b)} style={{ flex: 1, background: '#E8F2EA', color: '#3D7A4E', border: 'none', borderRadius: 8, padding: '8px', fontSize: 12, cursor: 'pointer' }}>{zh ? '确认' : 'Confirm'}</button>}
+                      {b.status !== 'cancelled' && <button onClick={() => handleBookingStatus(b.id, 'cancelled', b)} style={{ flex: 1, background: '#FAEBE9', color: '#C0544A', border: 'none', borderRadius: 8, padding: '8px', fontSize: 12, cursor: 'pointer' }}>{zh ? '取消' : 'Cancel'}</button>}
+                      <button onClick={() => handleDeleteBooking(b.id)} style={{ flex: 1, background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '8px', fontSize: 12, cursor: 'pointer', color: '#8B6F52' }}>{zh ? '删除' : 'Delete'}</button>
+                    </div>
+                  </div>
                 )
               })}
-            </tbody>
-          </table>
-        </div>
+            </div>
+          )}
+        </>
+      ) : (
+        {rentals.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: 32, color: '#8B6F52' }}>{zh ? '暂无场地租用申请' : 'No space rentals'}</div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {rentals.map(r => {
+              const start = new Date(r.start_time)
+              const end = new Date(r.end_time)
+              const hours = Math.round((end.getTime() - start.getTime()) / 3600000)
+              const sc = statusColor[r.status] || { bg: '#F2EDE4', text: '#8B6F52' }
+              return (
+                <div key={r.id} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 16 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                    <div>
+                      <div style={{ fontWeight: 500, color: '#3D2B1F', fontSize: 15 }}>{r.profiles?.full_name || '—'}</div>
+                      <div style={{ fontSize: 12, color: '#C9B89E', marginTop: 2 }}>{r.profiles?.phone || '—'}</div>
+                    </div>
+                    <span style={{ background: sc.bg, color: sc.text, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 500, flexShrink: 0 }}>{statusLabel(r.status)}</span>
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
+                    <div>
+                      <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '场地' : 'Space'}</div>
+                      <div style={{ fontSize: 13, color: '#3D2B1F' }}>{r.spaces?.name || '—'}</div>
+                      <div style={{ fontSize: 12, color: '#8B6F52' }}>{hours} {zh ? '小时' : 'hr'} · ${r.total_price}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '时间' : 'Time'}</div>
+                      <div style={{ fontSize: 13, color: '#8B6F52' }}>{start.toLocaleDateString()}</div>
+                      <div style={{ fontSize: 12, color: '#8B6F52' }}>{start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    </div>
+                  </div>
+                  {r.status === 'pending' && (
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      <button onClick={() => handleRentalStatus(r.id, 'confirmed', r)} style={{ flex: 1, background: '#E8F2EA', color: '#3D7A4E', border: 'none', borderRadius: 8, padding: '8px', fontSize: 12, cursor: 'pointer' }}>{zh ? '批准' : 'Approve'}</button>
+                      <button onClick={() => handleRentalStatus(r.id, 'cancelled', r)} style={{ flex: 1, background: '#FAEBE9', color: '#C0544A', border: 'none', borderRadius: 8, padding: '8px', fontSize: 12, cursor: 'pointer' }}>{zh ? '拒绝' : 'Reject'}</button>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
       )}
 
-      <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
+      <div style={{ position: 'fixed', bottom: 80, right: 16, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
     </div>
   )
 }
