@@ -54,10 +54,10 @@ export default function ClassesPage({ params }: { params: Promise<{ locale: stri
   const tabs = [['all', zh ? '全部' : 'All'], ['upcoming', zh ? '即将开始' : 'Upcoming'], ['past', zh ? '历史' : 'Past']]
 
   return (
-    <div style={{ padding: 8 }}>
+    <div style={{ padding: 16 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 22 }}>
         <div>
-          <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 28, color: '#3D2B1F', margin: 0 }}>{zh ? '课程管理' : 'Classes'}</h1>
+          <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 24, color: '#3D2B1F', margin: 0 }}>{zh ? '课程管理' : 'Classes'}</h1>
           <p style={{ color: '#8B6F52', margin: '4px 0 0', fontSize: 13 }}>{zh ? `共 ${classes.length} 节课程` : `${classes.length} total classes`}</p>
         </div>
         <button onClick={() => setShowModal(true)} style={{ background: '#3D2B1F', color: '#fff', border: 'none', padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontSize: 13 }}>{zh ? '+ 创建课程' : '+ Create Class'}</button>
@@ -69,40 +69,43 @@ export default function ClassesPage({ params }: { params: Promise<{ locale: stri
         ))}
       </div>
 
-      <div style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-          <thead><tr style={{ borderBottom: '1px solid #E8DDD0' }}>
-            {[zh ? '课程' : 'Class', zh ? '时间' : 'Time', zh ? '场地' : 'Space', zh ? '名额' : 'Capacity', zh ? '状态' : 'Status', ''].map(h => (
-              <th key={h} style={{ textAlign: 'left', padding: '10px 16px', fontSize: 11, letterSpacing: '.07em', textTransform: 'uppercase', color: '#C9B89E', fontWeight: 500 }}>{h}</th>
-            ))}
-          </tr></thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr><td colSpan={6} style={{ padding: 32, textAlign: 'center', color: '#8B6F52' }}>{zh ? '暂无课程' : 'No classes found'}</td></tr>
-            ) : filtered.map((c) => {
-              const start = new Date(c.start_time)
-              const isPast = start < now
-              return (
-                <tr key={c.id} style={{ borderBottom: '1px solid #F2EDE4' }}>
-                  <td style={{ padding: '12px 16px' }}><div style={{ fontWeight: 500, color: '#3D2B1F' }}>{c.title}</div><div style={{ fontSize: 11, color: '#C9B89E', marginTop: 2 }}>${c.price}</div></td>
-                  <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>{start.toLocaleDateString()} {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
-                  <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>{c.spaces?.name || '—'}</td>
-                  <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>{c.capacity}</td>
-                  <td style={{ padding: '12px 16px' }}>
-                    {isPast
-                      ? <span style={{ background: '#F2EDE4', color: '#8B6F52', padding: '2px 8px', borderRadius: 20, fontSize: 11 }}>{zh ? '已结束' : 'Past'}</span>
-                      : <span style={{ background: '#E8F2EA', color: '#3D7A4E', padding: '2px 8px', borderRadius: 20, fontSize: 11 }}>{zh ? '开放' : 'Open'}</span>
-                    }
-                  </td>
-                  <td style={{ padding: '12px 16px' }}>
-                    <button onClick={() => handleDelete(c.id)} style={{ background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '5px 12px', fontSize: 12, cursor: 'pointer', color: '#C0544A' }}>{zh ? '删除' : 'Delete'}</button>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
+      {filtered.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: 32, color: '#8B6F52' }}>{zh ? '暂无课程' : 'No classes found'}</div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {filtered.map((c) => {
+            const start = new Date(c.start_time)
+            const isPast = start < now
+            return (
+              <div key={c.id} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 500, color: '#3D2B1F', fontSize: 15, marginBottom: 2 }}>{c.title}</div>
+                    <div style={{ fontSize: 12, color: '#C9B89E' }}>${c.price}</div>
+                  </div>
+                  {isPast
+                    ? <span style={{ background: '#F2EDE4', color: '#8B6F52', padding: '3px 10px', borderRadius: 20, fontSize: 11, flexShrink: 0 }}>{zh ? '已结束' : 'Past'}</span>
+                    : <span style={{ background: '#E8F2EA', color: '#3D7A4E', padding: '3px 10px', borderRadius: 20, fontSize: 11, flexShrink: 0 }}>{zh ? '开放' : 'Open'}</span>
+                  }
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
+                  <div>
+                    <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '时间' : 'Time'}</div>
+                    <div style={{ fontSize: 13, color: '#3D2B1F' }}>{start.toLocaleDateString()}</div>
+                    <div style={{ fontSize: 12, color: '#8B6F52' }}>{start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '场地 / 名额' : 'Space / Cap'}</div>
+                    <div style={{ fontSize: 13, color: '#3D2B1F' }}>{c.spaces?.name || '—'}</div>
+                    <div style={{ fontSize: 12, color: '#8B6F52' }}>{c.capacity} {zh ? '人' : 'people'}</div>
+                  </div>
+                </div>
+                <button onClick={() => handleDelete(c.id)} style={{ width: '100%', background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '8px', fontSize: 13, cursor: 'pointer', color: '#C0544A' }}>{zh ? '删除课程' : 'Delete Class'}</button>
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       {showModal && (
         <div onClick={e => e.target === e.currentTarget && setShowModal(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(42,35,32,.4)', zIndex: 200, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(2px)' }}>
@@ -134,7 +137,7 @@ export default function ClassesPage({ params }: { params: Promise<{ locale: stri
           </div>
         </div>
       )}
-      <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
+      <div style={{ position: 'fixed', bottom: 80, right: 16, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
     </div>
   )
 }
