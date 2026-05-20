@@ -32,7 +32,7 @@ export default async function LocaleLayout({
   const showSidebar = !NO_SIDEBAR.includes(localePath)
   
   const ua = headersList.get('x-ua') || headersList.get('user-agent') || ''
-  const isMobile = true // FORCE TEST
+  const isMobile = /iPhone|iPad|Android|Mobile/i.test(ua)
 
   if (!showSidebar) {
     return (
