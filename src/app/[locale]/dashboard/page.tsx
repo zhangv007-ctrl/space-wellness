@@ -52,10 +52,10 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
   ]
 
   return (
-    <div style={{ padding: 8 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+    <div style={{ padding: '16px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20, gap: 12 }}>
         <div>
-          <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 28, color: '#3D2B1F', margin: 0 }}>
+          <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 22, color: '#3D2B1F', margin: 0, lineHeight: 1.2 }}>
             {greeting}, {displayName} ✦
           </h1>
           <p style={{ color: '#8B6F52', margin: '4px 0 0', fontSize: 13 }}>
@@ -67,11 +67,11 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 12, marginBottom: 20 }}>
         {stats.map(({ label, val, sub, color }) => (
-          <div key={label} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: '18px 20px', borderTop: `2px solid ${color}` }}>
+          <div key={label} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: '14px 16px', borderTop: `2px solid ${color}` }}>
             <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '.08em', color: '#C9B89E', marginBottom: 6 }}>{label}</div>
-            <div style={{ fontFamily: 'Georgia,serif', fontSize: 32, color: '#3D2B1F', lineHeight: 1 }}>{val}</div>
+            <div style={{ fontFamily: 'Georgia,serif', fontSize: 28, color: '#3D2B1F', lineHeight: 1 }}>{val}</div>
             <div style={{ fontSize: 11, color: '#8B6F52', marginTop: 4 }}>{sub}</div>
           </div>
         ))}
