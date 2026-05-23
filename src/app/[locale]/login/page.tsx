@@ -57,9 +57,13 @@ export default function LoginPage({ params }: { params: Promise<{ locale: string
 
   return (
     <div style={{ minHeight: '100vh', background: '#F5F0E8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'fixed', top: 16, right: 16 }}>
+        <a href={zh ? '/en/login' : '/zh/login'} style={{ fontSize: 12, color: '#8B6F52', textDecoration: 'none', padding: '4px 10px', border: '1px solid #E8DDD0', borderRadius: 6, background: '#fff' }}>{zh ? 'EN' : '中文'}</a>
+      </div>
       <div style={{ width: '100%', maxWidth: 420, padding: '0 16px' }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 32, color: '#3D2B1F', margin: '0 0 4px' }}>
+          <img src="/logo.jpg" alt="Space Wellness" style={{ width: 80, height: 80, borderRadius: '50%', objectFit: 'cover', marginBottom: 12, border: '2px solid rgba(201,184,158,0.4)' }} />
+          <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 26, color: '#3D2B1F', margin: '0 0 4px' }}>
             Space <em style={{ color: '#8B6F52' }}>Wellness</em>
           </h1>
           <p style={{ color: '#8B6F52', fontSize: 13, margin: 0 }}>Studio Management</p>
@@ -110,7 +114,7 @@ export default function LoginPage({ params }: { params: Promise<{ locale: string
         </div>
       </div>
 
-      <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
+      <div style={{ position: 'fixed', bottom: 32, right: 16, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
     </div>
   )
 }
