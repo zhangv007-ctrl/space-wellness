@@ -89,9 +89,9 @@ export default function BookClassPage({ params }: { params: Promise<{ locale: st
   const grouped = groupByDate(classes)
 
   return (
-    <div style={{ padding: 8 }}>
+    <div style={{ padding: 16 }}>
       <div style={{ marginBottom: 22 }}>
-        <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 28, color: '#3D2B1F', margin: 0 }}>{zh ? '预约课程' : 'Book a Class'}</h1>
+        <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 24, color: '#3D2B1F', margin: 0 }}>{zh ? '预约课程' : 'Book a Class'}</h1>
         <p style={{ color: '#8B6F52', margin: '4px 0 0', fontSize: 13 }}>{zh ? '浏览并预约即将开始的课程' : 'Browse and book upcoming classes'}</p>
       </div>
 
@@ -132,7 +132,7 @@ export default function BookClassPage({ params }: { params: Promise<{ locale: st
         </div>
       ))}
 
-      <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
+      <div style={{ position: 'fixed', bottom: 80, right: 16, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
     </div>
   )
 }

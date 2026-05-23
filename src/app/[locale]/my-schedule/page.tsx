@@ -71,9 +71,9 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
   }
 
   return (
-    <div style={{ padding: 8 }}>
+    <div style={{ padding: 16 }}>
       <div style={{ marginBottom: 22 }}>
-        <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 28, color: '#3D2B1F', margin: 0 }}>{zh ? '我的课表' : 'My Schedule'}</h1>
+        <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 22, color: '#3D2B1F', margin: 0 }}>{zh ? '我的课表' : 'My Schedule'}</h1>
         <p style={{ color: '#8B6F52', margin: '4px 0 0', fontSize: 13 }}>{zh ? '查看和管理你的课程预约' : 'View and manage your class bookings'}</p>
       </div>
 
@@ -100,8 +100,8 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
             const sc = statusColor[b.status] || { bg: '#F2EDE4', text: '#8B6F52' }
             const isPast = start && start < now
             return (
-              <div key={b.id} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+              <div key={b.id} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 16 }}>
+                <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 12 }}>
                   <div style={{ background: '#F2EDE4', borderRadius: 10, padding: '10px 14px', textAlign: 'center', minWidth: 52 }}>
                     <div style={{ fontSize: 20, fontFamily: 'Georgia,serif', color: '#3D2B1F', lineHeight: 1 }}>{start ? start.getDate() : '—'}</div>
                     <div style={{ fontSize: 10, color: '#8B6F52', textTransform: 'uppercase', letterSpacing: '.05em' }}>
@@ -117,7 +117,7 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
                     <div style={{ fontSize: 12, color: '#8B6F52', marginTop: 2 }}>${b.classes?.price || 0}</div>
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{ background: sc.bg, color: sc.text, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 500 }}>
                     {{ confirmed: zh ? '已确认' : 'Confirmed', cancelled: zh ? '已取消' : 'Cancelled', waitlist: zh ? '候补' : 'Waitlist' }[b.status] || b.status}
                   </span>
@@ -134,7 +134,7 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
         </div>
       )}
 
-      <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
+      <div style={{ position: 'fixed', bottom: 80, right: 16, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
     </div>
   )
 }

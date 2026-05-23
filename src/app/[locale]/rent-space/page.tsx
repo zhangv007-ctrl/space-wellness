@@ -89,9 +89,9 @@ export default function RentSpacePage({ params }: { params: Promise<{ locale: st
   const statusLabel = (s: string) => ({ pending: zh ? '待确认' : 'Pending', confirmed: zh ? '已确认' : 'Confirmed', cancelled: zh ? '已取消' : 'Cancelled' }[s] || s)
 
   return (
-    <div style={{ padding: 8 }}>
+    <div style={{ padding: 16 }}>
       <div style={{ marginBottom: 22 }}>
-        <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 28, color: '#3D2B1F', margin: 0 }}>{zh ? '租用场地' : 'Rent a Space'}</h1>
+        <h1 style={{ fontFamily: 'Georgia,serif', fontSize: 22, color: '#3D2B1F', margin: 0 }}>{zh ? '租用场地' : 'Rent a Space'}</h1>
         <p style={{ color: '#8B6F52', margin: '4px 0 0', fontSize: 13 }}>{zh ? '按小时租用我们的场地' : 'Book our spaces by the hour'}</p>
       </div>
 
@@ -194,7 +194,7 @@ export default function RentSpacePage({ params }: { params: Promise<{ locale: st
         </div>
       )}
 
-      <div style={{ position: 'fixed', bottom: 24, right: 24, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
+      <div style={{ position: 'fixed', bottom: 80, right: 16, background: '#3D2B1F', color: '#fff', padding: '12px 20px', borderRadius: 10, fontSize: 13, zIndex: 300, opacity: toast ? 1 : 0, transition: 'all .25s', pointerEvents: 'none' }}>{toast}</div>
     </div>
   )
 }
