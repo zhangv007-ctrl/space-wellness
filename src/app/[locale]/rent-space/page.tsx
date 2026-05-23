@@ -118,46 +118,42 @@ export default function RentSpacePage({ params }: { params: Promise<{ locale: st
 
           {rentals.length > 0 && (
             <div>
-              <h2 style={{ fontFamily: 'Georgia,serif', fontSize: 20, color: '#3D2B1F', marginBottom: 14 }}>{zh ? '我的租用记录' : 'My Rentals'}</h2>
-              <div style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, overflow: 'hidden' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-                  <thead><tr style={{ borderBottom: '1px solid #E8DDD0' }}>
-                    {[zh ? '场地' : 'Space', zh ? '时间' : 'Time', zh ? '时长' : 'Duration', zh ? '总价' : 'Total', zh ? '状态' : 'Status', ''].map(h => (
-                      <th key={h} style={{ textAlign: 'left', padding: '10px 16px', fontSize: 11, letterSpacing: '.07em', textTransform: 'uppercase', color: '#C9B89E', fontWeight: 500 }}>{h}</th>
-                    ))}
-                  </tr></thead>
-                  <tbody>
-                    {rentals.map(r => {
-                      const start = new Date(r.start_time)
-                      const end = new Date(r.end_time)
-                      const hours = Math.round((end.getTime() - start.getTime()) / 3600000)
-                      const sc = statusColor[r.status] || { bg: '#F2EDE4', text: '#8B6F52' }
-                      return (
-                        <tr key={r.id} style={{ borderBottom: '1px solid #F2EDE4' }}>
-                          <td style={{ padding: '12px 16px', fontWeight: 500, color: '#3D2B1F' }}>{r.spaces?.name}</td>
-                          <td style={{ padding: '12px 16px', color: '#8B6F52' }}>
-                            {start.toLocaleDateString()} {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                          </td>
-                          <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>{hours} {zh ? '小时' : 'hr'}</td>
-                          <td style={{ padding: '12px 16px', color: '#3D2B1F' }}>${r.total_price}</td>
-                          <td style={{ padding: '12px 16px' }}>
-                            <span style={{ background: sc.bg, color: sc.text, padding: '2px 10px', borderRadius: 20, fontSize: 11, fontWeight: 500 }}>
-                              {statusLabel(r.status)}
-                            </span>
-                          </td>
-                          <td style={{ padding: '12px 16px' }}>
-                            {r.status === 'pending' && (
-                              <button onClick={() => handleCancel(r.id)}
-                                style={{ background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '5px 12px', fontSize: 12, cursor: 'pointer', color: '#C0544A' }}>
-                                {zh ? '取消' : 'Cancel'}
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      )
-                    })}
-                  </tbody>
-                </table>
+              <h2 style={{ fontFamily: 'Georgia,serif', fontSize: 18, color: '#3D2B1F', marginBottom: 14 }}>{zh ? '我的租用记录' : 'My Rentals'}</h2>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {rentals.map(r => {
+                  const start = new Date(r.start_time)
+                  const end = new Date(r.end_time)
+                  const hours = Math.round((end.getTime() - start.getTime()) / 3600000)
+                  const sc = statusColor[r.status] || { bg: '#F2EDE4', text: '#8B6F52' }
+                  return (
+                    <div key={r.id} style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 16 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+                        <div style={{ fontWeight: 500, color: '#3D2B1F', fontSize: 15 }}>{r.spaces?.name}</div>
+                        <span style={{ background: sc.bg, color: sc.text, padding: '3px 10px', borderRadius: 20, fontSize: 11, fontWeight: 500, flexShrink: 0 }}>
+                          {statusLabel(r.status)}
+                        </span>
+                      </div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
+                        <div>
+                          <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '时间' : 'Time'}</div>
+                          <div style={{ fontSize: 13, color: '#3D2B1F' }}>{start.toLocaleDateString()}</div>
+                          <div style={{ fontSize: 12, color: '#8B6F52' }}>{start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                        </div>
+                        <div>
+                          <div style={{ fontSize: 10, color: '#C9B89E', textTransform: 'uppercase', letterSpacing: '.06em', marginBottom: 2 }}>{zh ? '时长 / 费用' : 'Duration / Cost'}</div>
+                          <div style={{ fontSize: 13, color: '#3D2B1F' }}>{hours} {zh ? '小时' : 'hr'}</div>
+                          <div style={{ fontSize: 12, color: '#8B6F52' }}>${r.total_price}</div>
+                        </div>
+                      </div>
+                      {r.status === 'pending' && (
+                        <button onClick={() => handleCancel(r.id)}
+                          style={{ width: '100%', background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '8px', fontSize: 13, cursor: 'pointer', color: '#C0544A' }}>
+                          {zh ? '取消租用' : 'Cancel Rental'}
+                        </button>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           )}
