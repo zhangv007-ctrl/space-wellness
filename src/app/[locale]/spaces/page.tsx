@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect, use } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import SpaceCalendar from '@/components/SpaceCalendar'
 
 export default function SpacesPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = use(params)
@@ -11,6 +12,7 @@ export default function SpacesPage({ params }: { params: Promise<{ locale: strin
   const [showModal, setShowModal] = useState(false)
   const [toast, setToast] = useState('')
   const [form, setForm] = useState({ name: '', description: '', capacity: 10, hourly_rate: 50 })
+  const [calendarSpace, setCalendarSpace] = useState<string | null>(null)
 
   const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
 
@@ -69,6 +71,12 @@ export default function SpacesPage({ params }: { params: Promise<{ locale: strin
               <div>👥 {s.capacity} {zh ? '人' : 'people'}</div>
               <div>💰 ${s.hourly_rate}/{zh ? '小时' : 'hr'}</div>
             </div>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
+              <button onClick={() => setCalendarSpace(calendarSpace === s.id ? null : s.id)}
+                style={{ flex: 1, background: calendarSpace === s.id ? '#F2EDE4' : 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer', color: '#3D2B1F' }}>
+                {zh ? '📅 查看日历' : '📅 Calendar'}
+              </button>
+            </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={() => handleToggle(s.id, s.is_active)}
                 style={{ flex: 1, background: 'transparent', border: '1px solid #E8DDD0', borderRadius: 8, padding: '6px 12px', fontSize: 12, cursor: 'pointer', color: '#3D2B1F' }}>
@@ -79,6 +87,7 @@ export default function SpacesPage({ params }: { params: Promise<{ locale: strin
                 {zh ? '删除' : 'Delete'}
               </button>
             </div>
+            {calendarSpace === s.id && <SpaceCalendar spaceId={s.id} spaceName={s.name} zh={zh} />}
           </div>
         ))}
       </div>
