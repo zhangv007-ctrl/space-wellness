@@ -33,10 +33,12 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
     await supabase.from('bookings').update({ status: 'cancelled' }).eq('id', id)
     setBookings(prev => prev.map(b => b.id === id ? { ...b, status: 'cancelled' } : b))
 
-    // 发送取消邮件
+    // 发送取消邮件给自己
     const { data: { user } } = await supabase.auth.getUser()
     const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', user?.id ?? '').single()
     const start = cls?.start_time ? new Date(cls.start_time) : null
+    const dateStr = start ? start.toLocaleDateString() + ' ' + start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''
+    
     await fetch('/api/email', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -45,10 +47,40 @@ export default function MySchedulePage({ params }: { params: Promise<{ locale: s
         to: user?.email,
         name: profile?.full_name || user?.email,
         className: cls?.title || '',
-        date: start ? start.toLocaleDateString() + ' ' + start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
+        date: dateStr,
         space: cls?.spaces?.name || '',
       })
     })
+
+    // 自动提升候补名单第一位
+    if (cls?.id) {
+      const { data: waitlisted } = await supabase
+        .from('bookings')
+        .select('*, profiles(full_name, email)')
+        .eq('class_id', cls.id)
+        .eq('status', 'waitlist')
+        .order('created_at', { ascending: true })
+        .limit(1)
+
+      if (waitlisted && waitlisted.length > 0) {
+        const next = waitlisted[0]
+        await supabase.from('bookings').update({ status: 'confirmed' }).eq('id', next.id)
+        await fetch('/api/email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'booking_confirmed',
+            to: next.profiles?.email || '',
+            name: next.profiles?.full_name || '',
+            className: cls?.title || '',
+            date: dateStr,
+            space: cls?.spaces?.name || '',
+          })
+        })
+        showToast(zh ? '预约已取消，候补用户已自动确认' : 'Cancelled — waitlisted user promoted!')
+        return
+      }
+    }
 
     showToast(zh ? '预约已取消，通知邮件已发送' : 'Booking cancelled, notification email sent')
   }
