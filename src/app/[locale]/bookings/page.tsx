@@ -38,6 +38,36 @@ export default function BookingsPage({ params }: { params: Promise<{ locale: str
   const handleBookingStatus = async (id: string, status: string, b: any) => {
     await supabase.from('bookings').update({ status }).eq('id', id)
     setBookings(prev => prev.map(x => x.id === id ? { ...x, status } : x))
+
+    // 如果是取消，自动提升候补名单第一位
+    if (status === 'cancelled' && b.class_id) {
+      const { data: waitlisted } = await supabase
+        .from('bookings')
+        .select('*, profiles(full_name, email)')
+        .eq('class_id', b.class_id)
+        .eq('status', 'waitlist')
+        .order('created_at', { ascending: true })
+        .limit(1)
+      
+      if (waitlisted && waitlisted.length > 0) {
+        const next = waitlisted[0]
+        await supabase.from('bookings').update({ status: 'confirmed' }).eq('id', next.id)
+        setBookings(prev => prev.map(x => x.id === next.id ? { ...x, status: 'confirmed' } : x))
+        
+        // 发送确认邮件给候补转正的用户
+        const classTime = b.classes?.start_time ? new Date(b.classes.start_time) : null
+        await sendEmail(
+          'booking_confirmed',
+          next.profiles?.email || '',
+          next.profiles?.full_name || '',
+          b.classes?.title || '',
+          classTime ? classTime.toLocaleDateString() + ' ' + classTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '',
+          b.classes?.spaces?.name || ''
+        )
+        showToast(zh ? '已取消，候补名单第一位已自动确认并收到通知' : 'Cancelled — waitlisted user promoted and notified!')
+        return
+      }
+    }
     showToast(zh ? '状态已更新' : 'Status updated')
   }
 
