@@ -12,6 +12,7 @@ export default function BookClassPage({ params }: { params: Promise<{ locale: st
   const [toast, setToast] = useState('')
   const [booked, setBooked] = useState<Set<string>>(new Set())
   const [userId, setUserId] = useState<string | null>(null)
+  const [bookingCounts, setBookingCounts] = useState<Record<string, number>>({})
   const [userEmail, setUserEmail] = useState<string | null>(null)
   const [userName, setUserName] = useState<string | null>(null)
 
@@ -33,6 +34,20 @@ export default function BookClassPage({ params }: { params: Promise<{ locale: st
         .eq('is_active', true)
         .order('start_time')
       setClasses(cls || [])
+      
+      // 获取每节课已确认预约数
+      if (cls && cls.length > 0) {
+        const counts: Record<string, number> = {}
+        await Promise.all(cls.map(async (c: any) => {
+          const { count } = await supabase
+            .from('bookings')
+            .select('*', { count: 'exact', head: true })
+            .eq('class_id', c.id)
+            .eq('status', 'confirmed')
+          counts[c.id] = count || 0
+        }))
+        setBookingCounts(counts)
+      }
       if (user) {
         const { data: bk } = await supabase
           .from('bookings')
@@ -50,14 +65,30 @@ export default function BookClassPage({ params }: { params: Promise<{ locale: st
     if (!userId) return showToast(zh ? '请先登录' : 'Please sign in first')
     if (booked.has(cls.id)) return showToast(zh ? '已预约此课程' : 'Already booked')
 
+    // 检查容量
+    const { count } = await supabase
+      .from('bookings')
+      .select('*', { count: 'exact', head: true })
+      .eq('class_id', cls.id)
+      .eq('status', 'confirmed')
+    
+    const isFull = (count || 0) >= cls.capacity
+    const status = isFull ? 'waitlist' : 'confirmed'
+
     const { error } = await supabase.from('bookings').insert({
       client_id: userId,
       class_id: cls.id,
-      status: 'confirmed'
+      status
     })
 
     if (error) return showToast(zh ? '预约失败，请重试' : 'Booking failed, please try again')
     setBooked(prev => new Set([...prev, cls.id]))
+    setBookingCounts(prev => ({ ...prev, [cls.id]: (prev[cls.id] || 0) + (isFull ? 0 : 1) }))
+    
+    if (isFull) {
+      showToast(zh ? `课程已满，已加入候补名单！` : `Class is full, added to waitlist!`)
+      return
+    }
 
     const start = new Date(cls.start_time)
     await fetch('/api/email', {
@@ -117,12 +148,24 @@ export default function BookClassPage({ params }: { params: Promise<{ locale: st
                   </div>
                   <div style={{ fontSize: 13, color: '#8B6F52', marginBottom: 4 }}>🕐 {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                   <div style={{ fontSize: 13, color: '#8B6F52', marginBottom: 4 }}>📍 {cls.spaces?.name || '—'}</div>
-                  <div style={{ fontSize: 13, color: '#8B6F52', marginBottom: 16 }}>👥 {zh ? `最多 ${cls.capacity} 人` : `Up to ${cls.capacity} people`}</div>
+                  <div style={{ fontSize: 13, color: '#8B6F52', marginBottom: 4 }}>
+                    👥 {zh ? `最多 ${cls.capacity} 人` : `Up to ${cls.capacity} people`}
+                  </div>
+                  <div style={{ fontSize: 13, marginBottom: 16, color: (bookingCounts[cls.id] || 0) >= cls.capacity ? '#C0544A' : '#3D7A4E', fontWeight: 500 }}>
+                    {(bookingCounts[cls.id] || 0) >= cls.capacity 
+                      ? (zh ? '⚠️ 已满员 — 可加入候补' : '⚠️ Full — Join Waitlist')
+                      : (zh ? `✓ 剩余 ${cls.capacity - (bookingCounts[cls.id] || 0)} 个名额` : `✓ ${cls.capacity - (bookingCounts[cls.id] || 0)} spots left`)
+                    }
+                  </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <div style={{ fontFamily: 'Georgia,serif', fontSize: 18, color: '#3D2B1F' }}>${cls.price}</div>
                     <button onClick={() => handleBook(cls)} disabled={isBooked}
                       style={{ background: isBooked ? '#F2EDE4' : '#3D2B1F', color: isBooked ? '#8B6F52' : '#fff', border: 'none', borderRadius: 8, padding: '8px 18px', fontSize: 13, cursor: isBooked ? 'default' : 'pointer' }}>
-                      {isBooked ? (zh ? '已预约' : 'Booked') : (zh ? '立即预约' : 'Book Now')}
+                      {isBooked 
+                        ? (zh ? '已预约' : 'Booked') 
+                        : (bookingCounts[cls.id] || 0) >= cls.capacity 
+                          ? (zh ? '加入候补' : 'Join Waitlist')
+                          : (zh ? '立即预约' : 'Book Now')}
                     </button>
                   </div>
                 </div>
