@@ -113,6 +113,26 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
         )}
       </div>
 
+      {/* Export Reports */}
+      <div style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 16, marginBottom: 16 }}>
+        <h2 style={{ fontFamily: 'Georgia,serif', fontSize: 16, color: '#3D2B1F', margin: '0 0 14px' }}>
+          {zh ? '导出报表' : 'Export Reports'}
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          {[
+            { type: 'bookings', label: zh ? '📋 预约记录' : '📋 Bookings' },
+            { type: 'clients', label: zh ? '👥 客户列表' : '👥 Clients' },
+            { type: 'rentals', label: zh ? '🏠 租用记录' : '🏠 Rentals' },
+            { type: 'revenue', label: zh ? '💰 收入报表' : '💰 Revenue' },
+          ].map(({ type, label }) => (
+            <a key={type} href={`/api/export?type=${type}`} download
+              style={{ display: 'block', textAlign: 'center', padding: '10px 8px', background: '#FAF7F2', border: '1px solid #E8DDD0', borderRadius: 8, fontSize: 13, color: '#3D2B1F', textDecoration: 'none', cursor: 'pointer' }}>
+              {label}
+            </a>
+          ))}
+        </div>
+      </div>
+
       {/* Recent Bookings */}
       <div style={{ background: '#fff', border: '1px solid #E8DDD0', borderRadius: 12, padding: 16 }}>
         <h2 style={{ fontFamily: 'Georgia,serif', fontSize: 16, color: '#3D2B1F', margin: '0 0 14px' }}>
